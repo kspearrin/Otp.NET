@@ -1,8 +1,6 @@
 # Otp.NET
 
-This is a port of the [OtpSharp library](https://bitbucket.org/devinmartin/otp-sharp/overview) to .NET Core.
-
-An implementation TOTP [RFC 6238](http://tools.ietf.org/html/rfc6238) in C#.
+An implementation TOTP [RFC 6238](http://tools.ietf.org/html/rfc6238) in C#. This is a port of the [OtpSharp library](https://bitbucket.org/devinmartin/otp-sharp/overview) to support .NET Core.
 
 ## Get it on NuGet
 
