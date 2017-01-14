@@ -1,0 +1,19 @@
+{
+  "name": "otpnet",
+  "version": "1.0.0",
+  "description": "An implementation of TOTP which is commonly used for multi factor authentication by using a shared key between the client and the server to generate and verify one time use codes.",
+  "homepage": "https://github.com/kspearrin/Otp.NET",
+  "author": "Kyle Spearrin",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kspearrin/Otp.NET"
+  },
+  "dependencies": {
+    "gulp": "^3.9.0",
+    "gulp-dotnet-assembly-info": "^0.1.10",
+    "gulp-msbuild": "^0.2.11",
+    "gulp-xmlpoke": "^0.2.0",
+    "nuget-runner": "^0.1.5"
+  }
+}
