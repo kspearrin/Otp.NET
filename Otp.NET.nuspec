@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Otp.NET</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <authors>Kyle Spearrin</authors>
     <projectUrl>https://github.com/kspearrin/Otp.NET</projectUrl>
     <licenseUrl>https://raw.githubusercontent.com/kspearrin/Otp.NET/master/LICENSE.txt</licenseUrl>

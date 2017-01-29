@@ -1,6 +1,6 @@
 {
   "name": "otpnet",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An implementation of TOTP which is commonly used for multi factor authentication by using a shared key between the client and the server to generate and verify one time use codes.",
   "homepage": "https://github.com/kspearrin/Otp.NET",
   "author": "Kyle Spearrin",
