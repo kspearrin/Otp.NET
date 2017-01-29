@@ -4,7 +4,7 @@ An implementation TOTP [RFC 6238](http://tools.ietf.org/html/rfc6238) in C#. Thi
 
 ## Get it on NuGet
 
-https://www.nuget.org/packages/Otp.NET/1.0.0
+https://www.nuget.org/packages/Otp.NET
 
 ```
 PM> Install-Package Otp.NET 
