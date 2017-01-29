@@ -17,6 +17,10 @@ TOTP is an algorithm that uses a rolling window of time to calculate single use 
 ## Creation of a TOTP object
 
 Use of the library is fairly straightforward.  There is a class called Totp.  Simple create a new instance of it and pass in the shared secret key in plaintext as a byte array. There is also an overload that takes a ProtectedKey object. ProtectedKeys are encrypted in memory except for a narrow window of time where the hash is actually computed. The TOTP class converts all plaintext keys into a ProtectedKey internally.
+
+```c#
+using OtpNet;
+```
  
 ```c#
 var topt = new Totp(secretKey);
