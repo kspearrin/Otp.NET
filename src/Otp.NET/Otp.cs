@@ -39,7 +39,7 @@ namespace OtpNet
         /// <summary>
         /// Secret key
         /// </summary>
-        protected readonly byte[] secretKey;
+        protected readonly IKeyProvider secretKey;
 
         /// <summary>
         /// The hash mode to use
@@ -59,7 +59,7 @@ namespace OtpNet
                 throw new ArgumentException("secretKey empty");
 
             // when passing a key into the constructor the caller may depend on the reference to the key remaining intact.
-            this.secretKey = secretKey;
+            this.secretKey = new InMemoryKey(secretKey);
 
             this.hashMode = mode;
         }
@@ -77,7 +77,7 @@ namespace OtpNet
         /// </summary>
         protected internal long CalculateOtp(byte[] data, OtpHashMode mode)
         {
-            byte[] hmacComputedHash = ComputeHmac(mode, data);
+            byte[] hmacComputedHash = this.secretKey.ComputeHmac(mode, data);
 
             // The RFC has a hard coded index 19 in this value.
             // This is the same thing but also accomodates SHA256 and SHA512
@@ -124,52 +124,5 @@ namespace OtpNet
             matchedStep = 0;
             return false;
         }
-
-        /// <summary>
-        /// Uses the key to get an HMAC using the specified algorithm and data
-        /// </summary>
-        /// <param name="mode">The HMAC algorithm to use</param>
-        /// <param name="data">The data used to compute the HMAC</param>
-        /// <returns>HMAC of the key and data</returns>
-        private byte[] ComputeHmac(OtpHashMode mode, byte[] data)
-        {
-            byte[] hashedValue = null;
-            using(HMAC hmac = CreateHmacHash(mode))
-            {
-                try
-                {
-                    hmac.Key = this.secretKey;
-                    hashedValue = hmac.ComputeHash(data);
-                }
-                finally
-                {
-                    KeyUtilities.Destroy(this.secretKey);
-                }
-            }
-
-            return hashedValue;
-        }
-
-        /// <summary>
-        /// Create an HMAC object for the specified algorithm
-        /// </summary>
-        private static HMAC CreateHmacHash(OtpHashMode otpHashMode)
-        {
-            HMAC hmacAlgorithm = null;
-            switch(otpHashMode)
-            {
-                case OtpHashMode.Sha256:
-                    hmacAlgorithm = new HMACSHA256();
-                    break;
-                case OtpHashMode.Sha512:
-                    hmacAlgorithm = new HMACSHA512();
-                    break;
-                default: //case OtpHashMode.Sha1:
-                    hmacAlgorithm = new HMACSHA1();
-                    break;
-            }
-            return hmacAlgorithm;
-        }
-
     }
 }
