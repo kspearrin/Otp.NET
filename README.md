@@ -125,6 +125,7 @@ totp.VerifyTotp(totpCode, out timeWindowUsed, VerificationWindow.RfcSpecifiedNet
 ```
 
 ## Time compensation
+
 In an ideal world both the client and the server's system time are correct to the second with NIST or other authoritative time standards.  This would ensure that the generated code is always correct.  If at all possible, sync the system time as closely as with NIST.
 
 There are cases where this simply isn't possible.  Perhaps you are writing an app to generate codes for use with a server who's time is significantly off.  You can't control the erroneous time of the server.  You could set your system clock to match but then your time would be off significantly which isn't the desired result.  There is a class called TimeCorrection that helps with these cases.
@@ -148,3 +149,17 @@ The Totp class constructor can take a TimeCorrection object that will be applied
 ```c#
 var totp = new Totp(secretKey, timeCorrection: correction);
 ```
+
+## Base32 Encoding
+
+Also included is a Base32 helper.
+
+```c#
+var key = KeyGeneration.GenerateRandomKey(20);
+
+var base32String = Base32Encoding.ToString(key);
+var base32Bytes = Base32Encoding.ToBytes(base32String);
+
+var otp = new Totp(base32Bytes);
+```
+
