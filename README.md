@@ -72,8 +72,8 @@ var remainingSeconds = totp.RemaininSeconds(DateTime.UtcNow);
 The TOTP implementation provides a mechanism for verifying TOTP codes that are passed in.  There is a method called VerifyTotp with an overload that takes a specific timestamp.
 
 ```c#
-public bool VerifyTotp(int totp, out long timeWindowUsed, VerificationWindow window = null);
-public bool VerifyTotp(DateTime timestamp, int totp, out long timeWindowUsed, VerificationWindow window = null)
+public bool VerifyTotp(string totp, out long timeWindowUsed, VerificationWindow window = null);
+public bool VerifyTotp(DateTime timestamp, string totp, out long timeWindowUsed, VerificationWindow window = null)
 ```
 
 If the overload that doesn't take a timestamp is called, DateTime.UtcNow will be used as the comperand.
