@@ -10,10 +10,8 @@
     "url": "https://github.com/kspearrin/Otp.NET"
   },
   "dependencies": {
+    "del": "^2.2.2",
     "gulp": "^3.9.0",
-    "gulp-dotnet-assembly-info": "^0.1.10",
-    "gulp-msbuild": "^0.2.11",
-    "gulp-xmlpoke": "^0.2.0",
-    "nuget-runner": "^0.1.5"
+    "gulp-dotnet-cli": "^0.3.0"
   }
 }
