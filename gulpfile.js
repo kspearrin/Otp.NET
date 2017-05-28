@@ -48,7 +48,7 @@ gulp.task('nuget', ['build'], ()=>{
 
 }, {read:false});
 
-gulp.task('push', ['nuget'], ()=>{
+gulp.task('push', ['default'], ()=>{
 
     return gulp.src('output/**/*.nupkg')
                .pipe(push({
