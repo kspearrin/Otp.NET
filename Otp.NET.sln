@@ -1,33 +1,54 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{57F82DBE-510A-4E78-ADCD-7A18DB80AA87}"
+# Visual Studio 15
+VisualStudioVersion = 15.0.26124.0
+MinimumVisualStudioVersion = 15.0.26124.0
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D0E9D08A-7F66-426A-8645-C2D92DB4D200}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E5579496-CD66-4961-8DD1-A53BA74229E3}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-		Otp.NET.nuspec = Otp.NET.nuspec
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Otp.NET", "src\Otp.NET\Otp.NET.csproj", "{EF104BCD-4F86-494E-81E1-D69A5C851430}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Otp.NET", "src\Otp.NET\Otp.NET.xproj", "{E630B67F-150A-4978-A2DD-51B8D8E783EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Otp.NET.UnitTests", "src\Otp.NET.UnitTests\Otp.NET.UnitTests.csproj", "{6FE2E04E-9263-4CB6-B9C1-3E39E19979DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E630B67F-150A-4978-A2DD-51B8D8E783EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E630B67F-150A-4978-A2DD-51B8D8E783EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E630B67F-150A-4978-A2DD-51B8D8E783EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E630B67F-150A-4978-A2DD-51B8D8E783EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EF104BCD-4F86-494E-81E1-D69A5C851430}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF104BCD-4F86-494E-81E1-D69A5C851430}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF104BCD-4F86-494E-81E1-D69A5C851430}.Debug|x64.ActiveCfg = Debug|x64
+		{EF104BCD-4F86-494E-81E1-D69A5C851430}.Debug|x64.Build.0 = Debug|x64
+		{EF104BCD-4F86-494E-81E1-D69A5C851430}.Debug|x86.ActiveCfg = Debug|x86
+		{EF104BCD-4F86-494E-81E1-D69A5C851430}.Debug|x86.Build.0 = Debug|x86
+		{EF104BCD-4F86-494E-81E1-D69A5C851430}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF104BCD-4F86-494E-81E1-D69A5C851430}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF104BCD-4F86-494E-81E1-D69A5C851430}.Release|x64.ActiveCfg = Release|x64
+		{EF104BCD-4F86-494E-81E1-D69A5C851430}.Release|x64.Build.0 = Release|x64
+		{EF104BCD-4F86-494E-81E1-D69A5C851430}.Release|x86.ActiveCfg = Release|x86
+		{EF104BCD-4F86-494E-81E1-D69A5C851430}.Release|x86.Build.0 = Release|x86
+		{6FE2E04E-9263-4CB6-B9C1-3E39E19979DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FE2E04E-9263-4CB6-B9C1-3E39E19979DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FE2E04E-9263-4CB6-B9C1-3E39E19979DF}.Debug|x64.ActiveCfg = Debug|x64
+		{6FE2E04E-9263-4CB6-B9C1-3E39E19979DF}.Debug|x64.Build.0 = Debug|x64
+		{6FE2E04E-9263-4CB6-B9C1-3E39E19979DF}.Debug|x86.ActiveCfg = Debug|x86
+		{6FE2E04E-9263-4CB6-B9C1-3E39E19979DF}.Debug|x86.Build.0 = Debug|x86
+		{6FE2E04E-9263-4CB6-B9C1-3E39E19979DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FE2E04E-9263-4CB6-B9C1-3E39E19979DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FE2E04E-9263-4CB6-B9C1-3E39E19979DF}.Release|x64.ActiveCfg = Release|x64
+		{6FE2E04E-9263-4CB6-B9C1-3E39E19979DF}.Release|x64.Build.0 = Release|x64
+		{6FE2E04E-9263-4CB6-B9C1-3E39E19979DF}.Release|x86.ActiveCfg = Release|x86
+		{6FE2E04E-9263-4CB6-B9C1-3E39E19979DF}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{E630B67F-150A-4978-A2DD-51B8D8E783EF} = {57F82DBE-510A-4E78-ADCD-7A18DB80AA87}
+		{EF104BCD-4F86-494E-81E1-D69A5C851430} = {D0E9D08A-7F66-426A-8645-C2D92DB4D200}
+		{6FE2E04E-9263-4CB6-B9C1-3E39E19979DF} = {D0E9D08A-7F66-426A-8645-C2D92DB4D200}
 	EndGlobalSection
 EndGlobal
