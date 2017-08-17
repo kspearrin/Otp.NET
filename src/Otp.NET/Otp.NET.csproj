@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <Version>1.1.0</Version>
     <TargetFrameworks>netstandard1.3;net45</TargetFrameworks>
     <PackageId>Otp.NET</PackageId>
     <Authors>Kyle Spearrin</Authors>
