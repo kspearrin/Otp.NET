@@ -23,7 +23,7 @@ using OtpNet;
 ```
  
 ```c#
-var topt = new Totp(secretKey);
+var totp = new Totp(secretKey);
 ```
 
 There are several options that can be used to change the how the code is calculated.  These are all mentioned in the RFC.  These options are specified when the TOTP object is created.
@@ -33,19 +33,19 @@ Different hash algorithms can be used to calculate the code.  The default is Sha
 To change that behavior from the default of Sha1 simply pass in the OtpHashMode enum with the desired value into the constructor.
 
 ```c#
-var topt = new Totp(secretKey, mode: OtpHashMode.Sha512);
+var totp = new Totp(secretKey, mode: OtpHashMode.Sha512);
 ```
 
 The time step window can also be specified.  The RFC recommends a window of thirty seconds.  That means that a new code will be generated every thirty seconds.  The step window can be changed however if required.  There are not tests around this as the RFC test tables all use a 30 second window so use this feature at your own risk.  Like the hash mode, pass this value into the constructor.  It is an int that represents seconds.
 
 ```c#
-var topt = new Totp(secretKey, step: 15); // a new code will be generated every 15 seconds
+var totp = new Totp(secretKey, step: 15); // a new code will be generated every 15 seconds
 ```
 
 Finally the truncation level can be specified.  Basically this is how many digits do you want your TOTP code to be.  The tests in the RFC specify 8, but 6 has become a de-facto standard if not an actual one.  For this reason the default is 6 but you can set it to something else.  There aren't a lot of tests around this either so use at your own risk (other than the fact that the RFC test table uses TOTP values that are 8 digits).
 
 ```c#
-var topt = new Totp(secretKey, totpSize: 8);
+var totp = new Totp(secretKey, totpSize: 8);
 ```
 
 ## Code Calculation
@@ -53,16 +53,16 @@ var topt = new Totp(secretKey, totpSize: 8);
 Once you have an instance of the Totp class, you can easily calculate a code by Calling the ComputeTotp method.  You need to provide the timestamp to use in the code calculation.  DateTime.UtcNow is the recommended value.  There is an overload that doesn't take a parameter that just uses UtcNow.
 
 ```c#
-var totpCode = topt.ComputeTotp(DateTime.UtcNow);
+var totpCode = totp.ComputeTotp(DateTime.UtcNow);
 // or use the overload that uses UtcNow
-var totpCode = topt.ComputeTotp();
+var totpCode = totp.ComputeTotp();
 ```
 
 ##Remaining Time
 There is a method that will tell you how much time remains in the current time step window in seconds.
 
 ```c#
-var remainingTime = topt.RemainingSeconds();
+var remainingTime = totp.RemainingSeconds();
 // there is also an overload that lets you specify the time
 var remainingSeconds = totp.RemaininSeconds(DateTime.UtcNow);
 ```
