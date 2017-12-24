@@ -32,8 +32,8 @@ namespace OtpNet
     /// Calculate HMAC-Based One-Time-Passwords (HOTP) from a secret key
     /// </summary>
     /// <remarks>
-    /// The specifications for this are found in RFC 6238
-    /// http://tools.ietf.org/html/rfc6238
+    /// The specifications for this are found in RFC 4226
+    /// http://tools.ietf.org/html/rfc4226
     /// </remarks>
     public class Hotp: Otp
     {
