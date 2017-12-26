@@ -14,7 +14,7 @@
     <PackageTags>otp,totp,2fa,two factor</PackageTags>
     <PackageIconUrl>http://i.imgur.com/XFfC64v.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/kspearrin/Otp.NET</RepositoryUrl>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>vs-signing-key.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
