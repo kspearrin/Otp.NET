@@ -69,6 +69,22 @@ namespace OtpNet
             return this.Compute(counter, this.hashMode);
         }
         /// <summary>
+        /// Verify a value that has been provided with the calculated value
+        /// </summary>
+        /// <param name="hotp">the trial HOTP value</param>
+        /// <param name="counter">The counter value to verify/param>
+        /// <returns>True if there is a match.</returns>
+        public bool VerifyHotp(string hotp, long counter)
+        {
+            if (hotp == ComputeHOTP(counter))
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
+        /// <summary>
         /// Takes a time step and computes a HOTP code
         /// </summary>
         /// <param name="counter">counter</param>
