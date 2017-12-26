@@ -64,7 +64,7 @@ namespace OtpNet
         /// </summary>
         /// <param name="timestamp">The timestamp to use for the HOTP calculation</param>
         /// <returns>a HOTP value</returns>
-        public string ComputeTOTP(long counter)
+        public string ComputeHOTP(long counter)
         {
             return this.Compute(counter, this.hashMode);
         }
