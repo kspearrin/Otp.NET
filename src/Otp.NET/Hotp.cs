@@ -24,7 +24,6 @@ DEALINGS IN THE SOFTWARE.
 */
 
 using System;
-using System.Globalization;
 
 namespace OtpNet
 {
@@ -35,7 +34,7 @@ namespace OtpNet
     /// The specifications for this are found in RFC 4226
     /// http://tools.ietf.org/html/rfc4226
     /// </remarks>
-    public class Hotp: Otp
+    public class Hotp : Otp
     {
         private readonly int hotpSize;
 
@@ -52,13 +51,15 @@ namespace OtpNet
 
             this.hotpSize = hotpSize;
         }
+
         private static void VerifyParameters(int hotpSize)
         {
-            if (!(hotpSize >= 6))
+            if(!(hotpSize >= 6))
                 throw new ArgumentOutOfRangeException("hotpSize");
-            if (!(hotpSize <= 8))
+            if(!(hotpSize <= 8))
                 throw new ArgumentOutOfRangeException("hotpSize");
         }
+
         /// <summary>
         /// Takes a counter and then computes a HOTP value
         /// </summary>
@@ -68,6 +69,7 @@ namespace OtpNet
         {
             return this.Compute(counter, this.hashMode);
         }
+
         /// <summary>
         /// Verify a value that has been provided with the calculated value
         /// </summary>
@@ -76,14 +78,16 @@ namespace OtpNet
         /// <returns>True if there is a match.</returns>
         public bool VerifyHotp(string hotp, long counter)
         {
-            if (hotp == ComputeHOTP(counter))
+            if(hotp == ComputeHOTP(counter))
             {
                 return true;
-            } else
+            }
+            else
             {
                 return false;
             }
         }
+
         /// <summary>
         /// Takes a time step and computes a HOTP code
         /// </summary>
@@ -96,6 +100,5 @@ namespace OtpNet
             var otp = this.CalculateOtp(data, mode);
             return Digits(otp, this.hotpSize);
         }
-
     }
 }
