@@ -23,8 +23,4 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="vs-signing-key.pfx" />
-  </ItemGroup>
-
 </Project>
