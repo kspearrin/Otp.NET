@@ -9,7 +9,9 @@
     <Copyright>Kyle Spearrin</Copyright>
     <PackageProjectUrl>https://github.com/kspearrin/Otp.NET</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/kspearrin/Otp.NET/master/LICENSE.txt</PackageLicenseUrl>
-    <Description>An implementation of TOTP and HOTP which is commonly used for multi factor authentication by using a shared key between the client and the server to generate and verify one time use codes. For documentation, visit https://github.com/kspearrin/Otp.NET</Description>
+    <Description>An implementation of TOTP and HOTP which are commonly used for multi factor authentication by using a shared key between the client and the server to generate and verify one time use codes.
+
+For documentation and examples visit the project website on GitHub at https://github.com/kspearrin/Otp.NET</Description>
     <Summary>An implementation of TOTP which is commonly used for multi factor authentication.</Summary>
     <PackageTags>otp,totp,hotp,2fa,two factor</PackageTags>
     <PackageIconUrl>http://i.imgur.com/XFfC64v.png</PackageIconUrl>
