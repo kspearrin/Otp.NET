@@ -128,6 +128,5 @@ namespace OtpNet
 
             throw new ArgumentException("Byte is not a value Base32 value.", "b");
         }
-
     }
 }

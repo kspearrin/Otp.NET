@@ -41,7 +41,7 @@ namespace OtpNet
         public static byte[] GenerateRandomKey(int length)
         {
             byte[] key = new byte[length];
-            using(var rnd = System.Security.Cryptography.RandomNumberGenerator.Create())
+            using(var rnd = RandomNumberGenerator.Create())
             {
                 rnd.GetBytes(key);
                 return key;
