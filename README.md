@@ -1,6 +1,6 @@
 # Otp.NET
 
-An implementation TOTP [RFC 6238](http://tools.ietf.org/html/rfc6238) in C#. This is a port of the [OtpSharp library](https://bitbucket.org/devinmartin/otp-sharp/overview) to support .NET Core.
+An implementation TOTP [RFC 6238](http://tools.ietf.org/html/rfc6238) and HOTP [RFC 4226](http://tools.ietf.org/html/rfc4226) in C#. This is a port of the [OtpSharp library](https://bitbucket.org/devinmartin/otp-sharp/overview) to support .NET Core.
 
 ## Get it on NuGet
 
@@ -148,6 +148,42 @@ The Totp class constructor can take a TimeCorrection object that will be applied
 
 ```c#
 var totp = new Totp(secretKey, timeCorrection: correction);
+```
+
+## HOTP (HMAC-based One Time Password)
+In addition to TOTP, this library implements HOTP (counter based) code calculation in C#.
+
+## Creation of an HOTP object
+```c#
+using OtpNet;
+```
+
+```c#
+var hotp = new Hotp(secretKey);
+```
+
+There are several options that can be used to change the how the code is calculated.  These are all mentioned in the RFC.  These options are specified when the HOTP object is created.
+
+Different hash algorithms can be used to calculate the code.  The default is Sha1, but Sha256, and Sha512 may be used instead.
+
+To change that behavior from the default of Sha1 simply pass in the OtpHashMode enum with the desired value into the constructor.
+
+```c#
+var hotp = new Hotp(secretKey, mode: OtpHashMode.Sha512);
+```
+
+Finally the truncation level can be specified.  Basically this is how many digits do you want your HOTP code to be.  The tests in the RFC specify 8, but 6 has become a de-facto standard if not an actual one.  For this reason the default is 6 but you can set it to something else.  There aren't a lot of tests around this either so use at your own risk (other than the fact that the RFC test table uses HOTP values that are 8 digits).
+
+```c#
+var hotp = new Hotp(secretKey, totpSize: 8);
+```
+
+## Verification
+
+The HOTP implementation provides a mechanism for verifying HOTP codes that are passed in.  There is a method called VerifyHotp with an overload that takes a counter value.
+
+```c#
+public bool VerifyHotp(string totp, long counter);
 ```
 
 ## Base32 Encoding
