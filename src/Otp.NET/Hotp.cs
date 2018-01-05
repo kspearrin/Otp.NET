@@ -40,11 +40,11 @@ namespace OtpNet
         private readonly int hotpSize;
 
         /// <summary>
-        /// Create a TOTP instance
+        /// Create a HOTP instance
         /// </summary>
         /// <param name="secretKey">The secret key to use in HOTP calculations</param>
         /// <param name="mode">The hash mode to use</param>
-        /// <param name="hotpSize">The number of digits that the returning TOTP should have.  The default is 6.</param>
+        /// <param name="hotpSize">The number of digits that the returning HOTP should have.  The default is 6.</param>
         public Hotp(byte[] secretKey, OtpHashMode mode = OtpHashMode.Sha1, int hotpSize = 6)
             : base(secretKey, mode)
         {
@@ -89,7 +89,7 @@ namespace OtpNet
         /// </summary>
         /// <param name="counter">counter</param>
         /// <param name="mode">The hash mode to use</param>
-        /// <returns>TOTP calculated code</returns>
+        /// <returns>HOTP calculated code</returns>
         protected override string Compute(long counter, OtpHashMode mode)
         {
             var data = KeyUtilities.GetBigEndianBytes(counter);
