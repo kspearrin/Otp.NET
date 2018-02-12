@@ -2,13 +2,6 @@
 
 An implementation TOTP [RFC 6238](http://tools.ietf.org/html/rfc6238) and HOTP [RFC 4226](http://tools.ietf.org/html/rfc4226) in C#. This is a port of the [OtpSharp library](https://bitbucket.org/devinmartin/otp-sharp/overview) to support .NET Core.
 
-**TOC**
-
-- [Get it on NuGet](#get-it-on-nuget)
-- [TOTP (Timed One Time Password)](#totp-timed-one-time-password)
-- [HOTP (HMAC-based One Time Password)](#hotp-hmac-based-one-time-password)
-- [Base32 Encoding](#base32-encoding)
-
 ## Get it on NuGet
 
 https://www.nuget.org/packages/Otp.NET
@@ -16,6 +9,12 @@ https://www.nuget.org/packages/Otp.NET
 ```
 PM> Install-Package Otp.NET 
 ```
+
+## Documentation
+
+- [TOTP (Timed One Time Password)](#totp-timed-one-time-password)
+- [HOTP (HMAC-based One Time Password)](#hotp-hmac-based-one-time-password)
+- [Base32 Encoding](#base32-encoding)
 
 ## TOTP (Timed One Time Password)
 
