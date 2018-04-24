@@ -133,16 +133,13 @@ namespace OtpNet
                 return false;
             }
 
-            var equal = true;
+            var result = 0;
             for(int i = 0; i < a.Length; i++)
             {
-                if(equal && a[i] != b[i])
-                {
-                    equal = false;
-                }
+                result |= a[i] ^ b[i];
             }
 
-            return equal;
+            return result == 0;
         }
     }
 }
