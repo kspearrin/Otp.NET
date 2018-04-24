@@ -114,7 +114,7 @@ namespace OtpNet
             foreach(var frame in window.ValidationCandidates(initialStep))
             {
                 var comparisonValue = this.Compute(frame, this.hashMode);
-                if(comparisonValue == valueToVerify)
+                if(ValuesEqual(comparisonValue, valueToVerify))
                 {
                     matchedStep = frame;
                     return true;
@@ -123,6 +123,26 @@ namespace OtpNet
 
             matchedStep = 0;
             return false;
+        }
+
+        // Constant time comparison of two values
+        private bool ValuesEqual(string a, string b)
+        {
+            if(a.Length != b.Length)
+            {
+                return false;
+            }
+
+            var equal = true;
+            for(int i = 0; i < a.Length; i++)
+            {
+                if(equal && a[i] != b[i])
+                {
+                    equal = false;
+                }
+            }
+
+            return equal;
         }
     }
 }
