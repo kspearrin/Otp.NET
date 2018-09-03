@@ -32,7 +32,7 @@ using OtpNet;
 var totp = new Totp(secretKey);
 ```
 
-There are several options that can be used to change the how the code is calculated.  These are all mentioned in the RFC.  These options are specified when the TOTP object is created.
+There are several options that can be used to change how the code is calculated.  These are all mentioned in the RFC.  These options are specified when the TOTP object is created.
 
 Different hash algorithms can be used to calculate the code.  The default is Sha1, but Sha256, and Sha512 may be used instead.
 
@@ -171,7 +171,7 @@ using OtpNet;
 var hotp = new Hotp(secretKey);
 ```
 
-There are several options that can be used to change the how the code is calculated.  These are all mentioned in the RFC.  These options are specified when the HOTP object is created.
+There are several options that can be used to change how the code is calculated.  These are all mentioned in the RFC.  These options are specified when the HOTP object is created.
 
 Different hash algorithms can be used to calculate the code.  The default is Sha1, but Sha256, and Sha512 may be used instead.
 
