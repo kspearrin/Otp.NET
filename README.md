@@ -22,7 +22,7 @@ TOTP is an algorithm that uses a rolling window of time to calculate single use 
 
 ### Creation of a TOTP object
 
-Use of the library is fairly straightforward.  There is a class called Totp.  Simply create a new instance of it and pass in the shared secret key in plaintext as a byte array. There is also an overload that takes a ProtectedKey object. ProtectedKeys are encrypted in memory except for a narrow window of time where the hash is actually computed. The TOTP class converts all plaintext keys into a ProtectedKey internally.
+Use of the library is fairly straightforward.  There is a class called Totp.  Simply create a new instance of it and pass in the shared secret key in plaintext as a byte array.
 
 ```c#
 using OtpNet;
@@ -89,7 +89,7 @@ If the overload that doesn't take a timestamp is called, DateTime.UtcNow will be
 
 There is an output long called timeWindowUsed.  This is provided so that the caller of the function can persist/check that the code has only been validated once.  [RFC 6238 Section 5.2](http://tools.ietf.org/html/rfc6238#section-5.2) states that a code must only be accepted once.  The output parameter reports the specific time window where the match occured for persistance comparison in future verification attempts.
 
-It is up to the consumer off this library to ensure that only one match for a given time step window is actually accepted.  This library will only go so far as to determine that there was a valid code provided given the current time and the key, not that it was truly used one time as this library has no persistence.
+It is up to the consumer of this library to ensure that only one match for a given time step window is actually accepted.  This library will only go so far as to determine that there was a valid code provided given the current time and the key, not that it was truly used one time as this library has no persistence.
 
 ### Expanded time Window
 
