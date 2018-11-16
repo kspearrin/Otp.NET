@@ -71,7 +71,7 @@ There is a method that will tell you how much time remains in the current time s
 ```c#
 var remainingTime = totp.RemainingSeconds();
 // there is also an overload that lets you specify the time
-var remainingSeconds = totp.RemaininSeconds(DateTime.UtcNow);
+var remainingSeconds = totp.RemainingSeconds(DateTime.UtcNow);
 ```
 
 ### Verification
