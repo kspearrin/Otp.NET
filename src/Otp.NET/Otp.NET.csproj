@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Version>1.2.1</Version>
-    <TargetFrameworks>netstandard1.3;net45</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard1.3;net45</TargetFrameworks>
     <PackageId>Otp.NET</PackageId>
     <Title>Otp.NET</Title>
     <Authors>Kyle Spearrin</Authors>
