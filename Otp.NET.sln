@@ -6,6 +6,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D0E9D08A-7F6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Otp.NET", "src\Otp.NET\Otp.NET.csproj", "{EF104BCD-4F86-494E-81E1-D69A5C851430}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Otp.NET.Test", "src\Otp.NET.Test\Otp.NET.Test.csproj", "{1843EE6C-16A4-4A2F-B961-8FC8B0157414}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +30,18 @@ Global
 		{EF104BCD-4F86-494E-81E1-D69A5C851430}.Release|x64.Build.0 = Release|Any CPU
 		{EF104BCD-4F86-494E-81E1-D69A5C851430}.Release|x86.ActiveCfg = Release|Any CPU
 		{EF104BCD-4F86-494E-81E1-D69A5C851430}.Release|x86.Build.0 = Release|Any CPU
+		{1843EE6C-16A4-4A2F-B961-8FC8B0157414}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1843EE6C-16A4-4A2F-B961-8FC8B0157414}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1843EE6C-16A4-4A2F-B961-8FC8B0157414}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1843EE6C-16A4-4A2F-B961-8FC8B0157414}.Debug|x64.Build.0 = Debug|Any CPU
+		{1843EE6C-16A4-4A2F-B961-8FC8B0157414}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1843EE6C-16A4-4A2F-B961-8FC8B0157414}.Debug|x86.Build.0 = Debug|Any CPU
+		{1843EE6C-16A4-4A2F-B961-8FC8B0157414}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1843EE6C-16A4-4A2F-B961-8FC8B0157414}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1843EE6C-16A4-4A2F-B961-8FC8B0157414}.Release|x64.ActiveCfg = Release|Any CPU
+		{1843EE6C-16A4-4A2F-B961-8FC8B0157414}.Release|x64.Build.0 = Release|Any CPU
+		{1843EE6C-16A4-4A2F-B961-8FC8B0157414}.Release|x86.ActiveCfg = Release|Any CPU
+		{1843EE6C-16A4-4A2F-B961-8FC8B0157414}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
