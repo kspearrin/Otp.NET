@@ -1,12 +1,14 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.3
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29411.108
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D0E9D08A-7F66-426A-8645-C2D92DB4D200}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Otp.NET", "src\Otp.NET\Otp.NET.csproj", "{EF104BCD-4F86-494E-81E1-D69A5C851430}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Otp.NET", "src\Otp.NET\Otp.NET.csproj", "{EF104BCD-4F86-494E-81E1-D69A5C851430}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Otp.NET.Test", "src\Otp.NET.Test\Otp.NET.Test.csproj", "{1843EE6C-16A4-4A2F-B961-8FC8B0157414}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Otp.NET.Test", "test\Otp.NET.Test\Otp.NET.Test.csproj", "{1843EE6C-16A4-4A2F-B961-8FC8B0157414}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{81C89CBC-23CE-40F7-904E-C7AA07A2981C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +50,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EF104BCD-4F86-494E-81E1-D69A5C851430} = {D0E9D08A-7F66-426A-8645-C2D92DB4D200}
+		{1843EE6C-16A4-4A2F-B961-8FC8B0157414} = {81C89CBC-23CE-40F7-904E-C7AA07A2981C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3B2B9DFE-9F37-430C-A647-93A81A31D8B3}

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Linq;
-using NUnit.Framework;
-using OtpNet;
+﻿using NUnit.Framework;
 
-namespace Otp.NET.Test
+namespace OtpNet.Test
 {
     [TestFixture]
     public class HotpTest

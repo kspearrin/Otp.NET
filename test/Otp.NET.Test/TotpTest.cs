@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Text;
 using NUnit.Framework;
-using OtpNet;
 
-namespace Otp.NET.Test
+namespace OtpNet.Test
 {
     [TestFixture()]
     public class TotpTest
