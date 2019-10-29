@@ -70,6 +70,26 @@ namespace OtpNet
             this.correctedTime = timeCorrection ?? TimeCorrection.UncorrectedInstance;
         }
 
+        /// <summary>
+        /// Create a TOTP instance
+        /// </summary>
+        /// <param name="key">The secret key to use in TOTP calculations</param>
+        /// <param name="step">The time window step amount to use in calculating time windows.  The default is 30 as recommended in the RFC</param>
+        /// <param name="mode">The hash mode to use</param>
+        /// <param name="totpSize">The number of digits that the returning TOTP should have.  The default is 6.</param>
+        /// <param name="timeCorrection">If required, a time correction can be specified to compensate of an out of sync local clock</param>
+        public Totp(IKeyProvider key, int step = 30, OtpHashMode mode = OtpHashMode.Sha1, int totpSize = 6, TimeCorrection timeCorrection = null)
+            : base(key, mode)
+        {
+            VerifyParameters(step, totpSize);
+
+            this.step = step;
+            this.totpSize = totpSize;
+
+            // we never null check the corrected time object.  Since it's readonly, we'll ensure that it isn't null here and provide neatral functionality in this case.
+            this.correctedTime = timeCorrection ?? TimeCorrection.UncorrectedInstance;
+        }
+
         private static void VerifyParameters(int step, int totpSize)
         {
             if(!(step > 0))

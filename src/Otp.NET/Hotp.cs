@@ -52,6 +52,20 @@ namespace OtpNet
             this.hotpSize = hotpSize;
         }
 
+        /// <summary>
+        /// Create a HOTP instance
+        /// </summary>
+        /// <param name="key">The key to use in HOTP calculations</param>
+        /// <param name="mode">The hash mode to use</param>
+        /// <param name="hotpSize">The number of digits that the returning HOTP should have.  The default is 6.</param>
+        public Hotp(IKeyProvider key, OtpHashMode mode = OtpHashMode.Sha1, int hotpSize = 6)
+            : base(key, mode)
+        {
+            VerifyParameters(hotpSize);
+
+            this.hotpSize = hotpSize;
+        }
+
         private static void VerifyParameters(int hotpSize)
         {
             if(!(hotpSize >= 6))

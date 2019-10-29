@@ -47,7 +47,7 @@ namespace OtpNet
         protected readonly OtpHashMode hashMode;
 
         /// <summary>
-        /// Constructor for the abstract class.  This is to guarantee that all implementations have a secret key
+        /// Constructor for the abstract class using an explicit secret key
         /// </summary>
         /// <param name="secretKey"></param>
         /// <param name="mode">The hash mode to use</param>
@@ -60,6 +60,21 @@ namespace OtpNet
 
             // when passing a key into the constructor the caller may depend on the reference to the key remaining intact.
             this.secretKey = new InMemoryKey(secretKey);
+
+            this.hashMode = mode;
+        }
+
+        /// <summary>
+        /// Constructor for the abstract class using a generic key provider
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="mode">The hash mode to use</param>
+        public Otp(IKeyProvider key, OtpHashMode mode)
+        {
+            if (key == null)
+                throw new ArgumentNullException("key");
+
+            this.secretKey = key;
 
             this.hashMode = mode;
         }
