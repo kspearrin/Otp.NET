@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Moq;
+using NUnit.Framework;
 
 namespace OtpNet.Test
 {
@@ -26,6 +27,18 @@ namespace OtpNet.Test
             Hotp otpCalc = new Hotp(rfc4226Secret, hash, expectedOtp.Length);
             string otp = otpCalc.ComputeHOTP(counter);
             Assert.That(otp, Is.EqualTo(expectedOtp));
+        }
+
+        [Test()]
+        public void ContructorWithKeyProviderTest()
+        {
+            //Mock a key provider which always returns an all-zero HMAC (causing an all-zero OTP)
+            Mock<IKeyProvider> keyMock = new Mock<IKeyProvider>();
+            keyMock.Setup(key => key.ComputeHmac(It.Is<OtpHashMode>(m => m == OtpHashMode.Sha1), It.IsAny<byte[]>())).Returns(new byte[20]);
+
+            var otp = new Hotp(keyMock.Object, OtpHashMode.Sha1, 6);
+            Assert.That(otp.ComputeHOTP(0), Is.EqualTo("000000"));
+            Assert.That(otp.ComputeHOTP(1), Is.EqualTo("000000"));
         }
     }
 }

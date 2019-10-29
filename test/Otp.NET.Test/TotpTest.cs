@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using Moq;
 using NUnit.Framework;
 
 namespace OtpNet.Test
@@ -35,6 +36,17 @@ namespace OtpNet.Test
             DateTime time = DateTimeOffset.FromUnixTimeSeconds(timestamp).DateTime;
             string otp = otpCalc.ComputeTotp(time);
             Assert.That(otp, Is.EqualTo(expectedOtp));
+        }
+
+        [Test()]
+        public void ContructorWithKeyProviderTest()
+        {
+            //Mock a key provider which always returns an all-zero HMAC (causing an all-zero OTP)
+            Mock<IKeyProvider> keyMock = new Mock<IKeyProvider>();
+            keyMock.Setup(key => key.ComputeHmac(It.Is<OtpHashMode>(m => m == OtpHashMode.Sha1), It.IsAny<byte[]>())).Returns(new byte[20]);
+
+            var otp = new Totp(keyMock.Object, 30, OtpHashMode.Sha1, 6);
+            Assert.That(otp.ComputeTotp(), Is.EqualTo("000000"));
         }
     }
 }
