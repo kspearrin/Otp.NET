@@ -102,7 +102,7 @@ namespace OtpNet
             return (hmacComputedHash[offset] & 0x7f) << 24
                 | (hmacComputedHash[offset + 1] & 0xff) << 16
                 | (hmacComputedHash[offset + 2] & 0xff) << 8
-                | (hmacComputedHash[offset + 3] & 0xff) % 1000000;
+                | (hmacComputedHash[offset + 3] & 0xff);
         }
 
         /// <summary>
