@@ -16,7 +16,7 @@ in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFINGEMENT. IN NO EVENT SHALL
 THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
@@ -36,7 +36,7 @@ namespace OtpNet
     /// </remarks>
     public class Hotp : Otp
     {
-        private readonly int hotpSize;
+        private readonly int _hotpSize;
 
         /// <summary>
         /// Create a HOTP instance
@@ -49,7 +49,7 @@ namespace OtpNet
         {
             VerifyParameters(hotpSize);
 
-            this.hotpSize = hotpSize;
+            _hotpSize = hotpSize;
         }
 
         /// <summary>
@@ -63,44 +63,32 @@ namespace OtpNet
         {
             VerifyParameters(hotpSize);
 
-            this.hotpSize = hotpSize;
+            _hotpSize = hotpSize;
         }
 
         private static void VerifyParameters(int hotpSize)
         {
-            if(!(hotpSize >= 6))
-                throw new ArgumentOutOfRangeException("hotpSize");
-            if(!(hotpSize <= 8))
-                throw new ArgumentOutOfRangeException("hotpSize");
+            if(hotpSize < 6)
+                throw new ArgumentOutOfRangeException(nameof(hotpSize));
+            if(hotpSize > 8)
+                throw new ArgumentOutOfRangeException(nameof(hotpSize));
         }
 
         /// <summary>
         /// Takes a counter and then computes a HOTP value
         /// </summary>
         /// <param name="timestamp">The timestamp to use for the HOTP calculation</param>
+        /// <param name="counter"></param>
         /// <returns>a HOTP value</returns>
-        public string ComputeHOTP(long counter)
-        {
-            return this.Compute(counter, this.hashMode);
-        }
+        public string ComputeHOTP(long counter) => Compute(counter, _hashMode);
 
         /// <summary>
         /// Verify a value that has been provided with the calculated value
         /// </summary>
         /// <param name="hotp">the trial HOTP value</param>
-        /// <param name="counter">The counter value to verify/param>
+        /// <param name="counter">The counter value to verify</param>
         /// <returns>True if there is a match.</returns>
-        public bool VerifyHotp(string hotp, long counter)
-        {
-            if(hotp == ComputeHOTP(counter))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        public bool VerifyHotp(string hotp, long counter) => hotp == ComputeHOTP(counter);
 
         /// <summary>
         /// Takes a time step and computes a HOTP code
@@ -111,8 +99,8 @@ namespace OtpNet
         protected override string Compute(long counter, OtpHashMode mode)
         {
             var data = KeyUtilities.GetBigEndianBytes(counter);
-            var otp = this.CalculateOtp(data, mode);
-            return Digits(otp, this.hotpSize);
+            var otp = CalculateOtp(data, mode);
+            return Digits(otp, _hotpSize);
         }
     }
 }
