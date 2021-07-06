@@ -6,7 +6,7 @@ namespace OtpNet.Test
     [TestFixture]
     public class HotpTest
     {
-        private static readonly byte[] rfc4226Secret = new byte[] {
+        private static readonly byte[] rfc4226Secret = {
             0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38,
             0x39, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36,
             0x37, 0x38, 0x39, 0x30
@@ -29,7 +29,7 @@ namespace OtpNet.Test
             Assert.That(otp, Is.EqualTo(expectedOtp));
         }
 
-        [Test()]
+        [Test]
         public void ContructorWithKeyProviderTest()
         {
             //Mock a key provider which always returns an all-zero HMAC (causing an all-zero OTP)

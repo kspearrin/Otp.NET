@@ -16,7 +16,7 @@ in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFINGEMENT. IN NO EVENT SHALL
 THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
@@ -41,12 +41,13 @@ namespace OtpNet
         /// This isn't foolproof by any means.  The garbage collector could have moved the actual
         /// location in memory to another location during a collection cycle and left the old data in place
         /// simply marking it as available.  We can't control this or even detect it.
-        /// This method is simply a good faith effort to limit the exposure of sensitive data in memory as much as possible
+        /// This method is simply a good faith effort to limit the exposure of sensitive data in
+        /// memory as much as possible
         /// </remarks>
         internal static void Destroy(byte[] sensitiveData)
         {
             if(sensitiveData == null)
-                throw new ArgumentNullException("sensitiveData");
+                throw new ArgumentNullException(nameof(sensitiveData));
             new Random().NextBytes(sensitiveData);
         }
 
@@ -56,7 +57,7 @@ namespace OtpNet
         /// <remarks>
         /// RFC 4226 specifies big endian as the method for converting the counter to data to hash.
         /// </remarks>
-        static internal byte[] GetBigEndianBytes(long input)
+        internal static byte[] GetBigEndianBytes(long input)
         {
             // Since .net uses little endian numbers, we need to reverse the byte order to get big endian.
             var data = BitConverter.GetBytes(input);
@@ -70,7 +71,7 @@ namespace OtpNet
         /// <remarks>
         /// RFC 4226 specifies big endian as the method for converting the counter to data to hash.
         /// </remarks>
-        static internal byte[] GetBigEndianBytes(int input)
+        internal static byte[] GetBigEndianBytes(int input)
         {
             // Since .net uses little endian numbers, we need to reverse the byte order to get big endian.
             var data = BitConverter.GetBytes(input);

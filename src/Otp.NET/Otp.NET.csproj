@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Version>1.2.2</Version>
-    <TargetFrameworks>netstandard2.0;netstandard1.3;net45</TargetFrameworks>
+    <TargetFrameworks>net45;net5.0;netstandard1.3;netstandard2.0</TargetFrameworks>
     <PackageId>Otp.NET</PackageId>
     <Title>Otp.NET</Title>
     <Authors>Kyle Spearrin</Authors>
@@ -17,8 +17,8 @@ For documentation and examples visit the project website on GitHub at https://gi
     <PackageIconUrl>http://i.imgur.com/XFfC64v.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/kspearrin/Otp.NET</RepositoryUrl>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>vs-signing-key.pfx</AssemblyOriginatorKeyFile>
     <RootNamespace>OtpNet</RootNamespace>
+    <AssemblyOriginatorKeyFile>otp-net.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">

@@ -16,7 +16,7 @@ in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFINGEMENT. IN NO EVENT SHALL
 THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
@@ -49,11 +49,11 @@ namespace OtpNet
     /// </remarks>
     public class InMemoryKey : IKeyProvider
     {
-        static readonly object platformSupportSync = new object();
+        private static readonly object _platformSupportSync = new object();
 
-        readonly object stateSync = new object();
-        readonly byte[] KeyData;
-        readonly int keyLength;
+        private readonly object _stateSync = new object();
+        private readonly byte[] _keyData;
+        private readonly int _keyLength;
 
         /// <summary>
         /// Creates an instance of a key.
@@ -61,15 +61,15 @@ namespace OtpNet
         /// <param name="key">Plaintext key data</param>
         public InMemoryKey(byte[] key)
         {
-            if(!(key != null))
-                throw new ArgumentNullException("key");
-            if(!(key.Length > 0))
+            if(key == null)
+                throw new ArgumentNullException(nameof(key));
+            if(key.Length <= 0)
                 throw new ArgumentException("The key must not be empty");
 
-            this.keyLength = key.Length;
-            int paddedKeyLength = (int)Math.Ceiling((decimal)key.Length / (decimal)16) * 16;
-            this.KeyData = new byte[paddedKeyLength];
-            Array.Copy(key, this.KeyData, key.Length);
+            _keyLength = key.Length;
+            var paddedKeyLength = (int)Math.Ceiling((decimal)key.Length / (decimal)16) * 16;
+            _keyData = new byte[paddedKeyLength];
+            Array.Copy(key, _keyData, key.Length);
         }
 
         /// <summary>
@@ -81,10 +81,10 @@ namespace OtpNet
         /// <returns>Plaintext Key</returns>
         internal byte[] GetCopyOfKey()
         {
-            var plainKey = new byte[this.keyLength];
-            lock(this.stateSync)
+            var plainKey = new byte[_keyLength];
+            lock(_stateSync)
             {
-                Array.Copy(this.KeyData, plainKey, this.keyLength);
+                Array.Copy(_keyData, plainKey, _keyLength);
             }
             return plainKey;
         }
@@ -97,10 +97,10 @@ namespace OtpNet
         /// <returns>HMAC of the key and data</returns>
         public byte[] ComputeHmac(OtpHashMode mode, byte[] data)
         {
-            byte[] hashedValue = null;
-            using(HMAC hmac = CreateHmacHash(mode))
+            byte[] hashedValue;
+            using(var hmac = CreateHmacHash(mode))
             {
-                byte[] key = this.GetCopyOfKey();
+                var key = GetCopyOfKey();
                 try
                 {
                     hmac.Key = key;
@@ -120,7 +120,7 @@ namespace OtpNet
         /// </summary>
         private static HMAC CreateHmacHash(OtpHashMode otpHashMode)
         {
-            HMAC hmacAlgorithm = null;
+            HMAC hmacAlgorithm;
             switch(otpHashMode)
             {
                 case OtpHashMode.Sha256:
