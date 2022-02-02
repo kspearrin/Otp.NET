@@ -1,6 +1,7 @@
 ﻿/*
 Credits to "Shane" from SO answer here:
 http://stackoverflow.com/a/7135008/1090359
+https://stackoverflow.com/users/904128/shane
 */
 
 using System;
