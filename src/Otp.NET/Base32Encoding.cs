@@ -1,6 +1,6 @@
 ﻿/*
-Credits to "Shane" from SO answer here:
-http://stackoverflow.com/a/7135008/1090359
+Credits to "Shane" from StackOverflow answer here:
+https://stackoverflow.com/a/7135008
 https://stackoverflow.com/users/904128/shane
 */
 
