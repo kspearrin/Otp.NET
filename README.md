@@ -1,6 +1,6 @@
 # Otp.NET
 
-An implementation TOTP [RFC 6238](http://tools.ietf.org/html/rfc6238) and HOTP [RFC 4226](http://tools.ietf.org/html/rfc4226) in C#. This is a port of the [OtpSharp library](https://bitbucket.org/devinmartin/otp-sharp/overview) (no longer accessible) to support .NET Core.
+An implementation TOTP [RFC 6238](http://tools.ietf.org/html/rfc6238) and HOTP [RFC 4226](http://tools.ietf.org/html/rfc4226) in C#.
 
 ## Get it on NuGet
 
@@ -208,3 +208,6 @@ var base32Bytes = Base32Encoding.ToBytes(base32String);
 var otp = new Totp(base32Bytes);
 ```
 
+## Credits
+
+This project is originally based on the OtpSharp library. OtpSharp was written by Devin Martin.
