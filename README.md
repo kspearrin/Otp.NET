@@ -16,11 +16,11 @@ PM> Install-Package Otp.NET
 - [HOTP (HMAC-based One Time Password)](#hotp-hmac-based-one-time-password)
 - [Base32 Encoding](#base32-encoding)
 
-## TOTP (Timed One Time Password)
+### TOTP (Timed One Time Password)
 
 TOTP is an algorithm that uses a rolling window of time to calculate single use passwords.  It is often used for two factor authentication.  The Google Authenticator app uses TOTP to calculate one time passwords.  This library implements TOTP code calculation in C#.  This could be embedded in a mobile app using Mono, or used server side to simply validate codes that are provided.
 
-### Creation of a TOTP object
+#### Creation of a TOTP object
 
 Use of the library is fairly straightforward.  There is a class called Totp.  Simply create a new instance of it and pass in the shared secret key in plaintext as a byte array.
 
@@ -54,7 +54,7 @@ Finally the truncation level can be specified.  Basically this is how many digit
 var totp = new Totp(secretKey, totpSize: 8);
 ```
 
-### Code Calculation
+#### Code Calculation
 
 Once you have an instance of the Totp class, you can easily calculate a code by Calling the ComputeTotp method.  You need to provide the timestamp to use in the code calculation.  DateTime.UtcNow is the recommended value.  There is an overload that doesn't take a parameter that just uses UtcNow.
 
@@ -64,7 +64,7 @@ var totpCode = totp.ComputeTotp(DateTime.UtcNow);
 var totpCode = totp.ComputeTotp();
 ```
 
-### Remaining Time
+#### Remaining Time
 
 There is a method that will tell you how much time remains in the current time step window in seconds.
 
@@ -74,7 +74,7 @@ var remainingTime = totp.RemainingSeconds();
 var remainingSeconds = totp.RemainingSeconds(DateTime.UtcNow);
 ```
 
-### Verification
+#### Verification
 
 The TOTP implementation provides a mechanism for verifying TOTP codes that are passed in.  There is a method called VerifyTotp with an overload that takes a specific timestamp.
 
@@ -85,13 +85,13 @@ public bool VerifyTotp(DateTime timestamp, string totp, out long timeWindowUsed,
 
 If the overload that doesn't take a timestamp is called, DateTime.UtcNow will be used as the comperand.
 
-### One Time Use
+#### One Time Use
 
 There is an output long called timeWindowUsed.  This is provided so that the caller of the function can persist/check that the code has only been validated once.  [RFC 6238 Section 5.2](http://tools.ietf.org/html/rfc6238#section-5.2) states that a code must only be accepted once.  The output parameter reports the specific time window where the match occured for persistance comparison in future verification attempts.
 
 It is up to the consumer of this library to ensure that only one match for a given time step window is actually accepted.  This library will only go so far as to determine that there was a valid code provided given the current time and the key, not that it was truly used one time as this library has no persistence.
 
-### Expanded time Window
+#### Expanded time Window
 
 [RFC 6238 Section 5.2](http://tools.ietf.org/html/rfc6238#section-5.2) defines the recommended conditions for accepting a TOTP validation code.  The exact text in the RFC is "We RECOMMEND that at most one time step is allowed as the network delay."
 
@@ -131,7 +131,7 @@ This can be used as follows
 totp.VerifyTotp(totpCode, out timeWindowUsed, VerificationWindow.RfcSpecifiedNetworkDelay);
 ```
 
-### Time compensation
+#### Time compensation
 
 In an ideal world both the client and the server's system time are correct to the second with NIST or other authoritative time standards.  This would ensure that the generated code is always correct.  If at all possible, sync the system time as closely as with NIST.
 
@@ -157,11 +157,11 @@ The Totp class constructor can take a TimeCorrection object that will be applied
 var totp = new Totp(secretKey, timeCorrection: correction);
 ```
 
-## HOTP (HMAC-based One Time Password)
+### HOTP (HMAC-based One Time Password)
 
 In addition to TOTP, this library implements HOTP (counter based) code calculation in C#.
 
-### Creation of an HOTP object
+#### Creation of an HOTP object
 
 ```c#
 using OtpNet;
@@ -187,7 +187,7 @@ Finally the truncation level can be specified.  Basically this is how many digit
 var hotp = new Hotp(secretKey, totpSize: 8);
 ```
 
-### Verification
+#### Verification
 
 The HOTP implementation provides a mechanism for verifying HOTP codes that are passed in.  There is a method called VerifyHotp with an overload that takes a counter value.
 
@@ -195,7 +195,7 @@ The HOTP implementation provides a mechanism for verifying HOTP codes that are p
 public bool VerifyHotp(string totp, long counter);
 ```
 
-## Base32 Encoding
+### Base32 Encoding
 
 Also included is a Base32 helper.
 
