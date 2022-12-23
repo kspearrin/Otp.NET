@@ -3,7 +3,7 @@ before_build:
 
 build_script:
   - dotnet build -c "Release" --no-restore
-  - dotnet pack ./src/Otp.NET/Otp.NET.csproj --no-build -o ../dist  -c "Release"
+  - dotnet pack ./src/Otp.NET/Otp.NET.csproj --no-build -o ./dist  -c "Release"
 
 test_script:
   - dotnet test --no-build
