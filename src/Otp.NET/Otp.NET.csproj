@@ -14,7 +14,7 @@
 For documentation and examples visit the project website on GitHub at https://github.com/kspearrin/Otp.NET</Description>
     <Summary>An implementation of TOTP which is commonly used for multi factor authentication.</Summary>
     <PackageTags>otp,totp,hotp,2fa,two factor</PackageTags>
-    <PackageIconUrl>http://i.imgur.com/XFfC64v.png</PackageIconUrl>
+    <PackageIcon>icon.png</PackageIcon>
     <RepositoryUrl>https://github.com/kspearrin/Otp.NET</RepositoryUrl>
     <SignAssembly>true</SignAssembly>
     <RootNamespace>OtpNet</RootNamespace>
@@ -30,7 +30,8 @@ For documentation and examples visit the project website on GitHub at https://gi
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="LICENSE.txt"/>
+    <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\"/>
+    <None Include="..\..\icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
