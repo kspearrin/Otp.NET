@@ -16,6 +16,7 @@ PM> Install-Package Otp.NET
 
 - [TOTP (Timed One Time Password)](#totp-timed-one-time-password)
 - [HOTP (HMAC-based One Time Password)](#hotp-hmac-based-one-time-password)
+- [OTP Uri](#otp-uri)
 - [Base32 Encoding](#base32-encoding)
 
 ### TOTP (Timed One Time Password)
@@ -195,6 +196,15 @@ The HOTP implementation provides a mechanism for verifying HOTP codes that are p
 
 ```c#
 public bool VerifyHotp(string totp, long counter);
+```
+
+### OTP Uri
+
+You can use the OtpUri class to generate OTP style uris in the "Key Uri Format" as defined here: https://github.com/google/google-authenticator/wiki/Key-Uri-Format
+
+```c#
+var uriString = new OtpUri(OtpType.Totp, "JBSWY3DPEHPK3PXP", "alice@google.com", "ACME Co").ToString();
+// uriString is otpauth://totp/ACME%20Co:alice@google.com?secret=JBSWY3DPEHPK3PXP&issuer=ACME%20Co&algorithm=SHA1&digits=6&period=30
 ```
 
 ### Base32 Encoding
