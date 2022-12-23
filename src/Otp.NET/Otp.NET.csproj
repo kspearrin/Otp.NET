@@ -8,7 +8,7 @@
     <Authors>Kyle Spearrin</Authors>
     <Copyright>Kyle Spearrin</Copyright>
     <PackageProjectUrl>https://github.com/kspearrin/Otp.NET</PackageProjectUrl>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/kspearrin/Otp.NET/master/LICENSE.txt</PackageLicenseUrl>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <Description>An implementation of TOTP and HOTP which are commonly used for multi factor authentication by using a shared key between the client and the server to generate and verify one time use codes.
 
 For documentation and examples visit the project website on GitHub at https://github.com/kspearrin/Otp.NET</Description>
@@ -27,6 +27,10 @@ For documentation and examples visit the project website on GitHub at https://gi
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
     <Reference Include="System" />
     <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="LICENSE.txt"/>
   </ItemGroup>
 
 </Project>
