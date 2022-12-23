@@ -18,6 +18,7 @@ For documentation and examples visit the project website on GitHub at https://gi
     <RepositoryUrl>https://github.com/kspearrin/Otp.NET</RepositoryUrl>
     <SignAssembly>true</SignAssembly>
     <RootNamespace>OtpNet</RootNamespace>
+    <AssemblyOriginatorKeyFile>vs-signing-key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">

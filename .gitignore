@@ -253,3 +253,4 @@ paket-files/
 
 .nuget/
 node_modules/
+*.snk
