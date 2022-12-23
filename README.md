@@ -204,7 +204,7 @@ You can use the OtpUri class to generate OTP style uris in the "Key Uri Format" 
 
 ```c#
 var uriString = new OtpUri(OtpType.Totp, "JBSWY3DPEHPK3PXP", "alice@google.com", "ACME Co").ToString();
-// uriString is otpauth://totp/ACME%20Co:alice@google.com?secret=JBSWY3DPEHPK3PXP&issuer=ACME%20Co&algorithm=SHA1&digits=6&period=30
+// uriString is otpauth://totp/ACME%20Co:alice%40google.com?secret=JBSWY3DPEHPK3PXP&issuer=ACME%20Co&algorithm=SHA1&digits=6&period=30
 ```
 
 ### Base32 Encoding
