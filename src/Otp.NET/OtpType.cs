@@ -2,7 +2,7 @@ namespace OtpNet {
     /// <summary>
     /// Schema types for OTPs
     /// </summary>
-    public enum OtpType2
+    public enum OtpType
     {
         /// <summary>
         /// Time-based OTP
