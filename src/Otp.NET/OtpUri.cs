@@ -127,7 +127,7 @@ namespace OtpNet
 
             if (!string.IsNullOrWhiteSpace(Issuer))
             {
-                parameters.Add("issuer", Issuer);
+                parameters.Add("issuer", Uri.EscapeDataString(Issuer));
             }
             parameters.Add("algorithm", Algorithm.ToString().ToUpper());
             parameters.Add("digits", Digits.ToString());
@@ -149,10 +149,10 @@ namespace OtpNet
             // The label
             if (!string.IsNullOrWhiteSpace(Issuer))
             {
-                uriBuilder.Append(Issuer);
+                uriBuilder.Append(Uri.EscapeDataString(Issuer));
                 uriBuilder.Append(":");
             }
-            uriBuilder.Append(User);
+            uriBuilder.Append(Uri.EscapeDataString(User));
 
             // Start of the parameters
             uriBuilder.Append("?");
@@ -166,7 +166,7 @@ namespace OtpNet
             // Remove last "&"
             uriBuilder.Remove(uriBuilder.Length - 1, 1);
 
-            return Uri.EscapeUriString(uriBuilder.ToString());
+            return uriBuilder.ToString();
         }
     }
 }
