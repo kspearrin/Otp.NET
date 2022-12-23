@@ -32,8 +32,8 @@ namespace OtpNet
     /// </summary>
     public class VerificationWindow
     {
-        private readonly int previous;
-        private readonly int future;
+        private readonly int _previous;
+        private readonly int _future;
 
         /// <summary>
         /// Create an instance of a verification window
@@ -42,19 +42,19 @@ namespace OtpNet
         /// <param name="future">The number of future frames to accept</param>
         public VerificationWindow(int previous = 0, int future = 0)
         {
-            this.previous = previous;
-            this.future = future;
+            _previous = previous;
+            _future = future;
         }
 
         /// <summary>
-        /// Gets an enumberable of all the possible validation candidates
+        /// Gets an enumerable of all the possible validation candidates
         /// </summary>
         /// <param name="initialFrame">The initial frame to validate</param>
-        /// <returns>Enumberable of all possible frames that need to be validated</returns>
+        /// <returns>Enumerable of all possible frames that need to be validated</returns>
         public IEnumerable<long> ValidationCandidates(long initialFrame)
         {
             yield return initialFrame;
-            for(int i = 1; i <= previous; i++)
+            for(var i = 1; i <= _previous; i++)
             {
                 var val = initialFrame - i;
                 if(val < 0)
@@ -62,13 +62,14 @@ namespace OtpNet
                 yield return val;
             }
 
-            for(int i = 1; i <= future; i++)
+            for(var i = 1; i <= _future; i++)
                 yield return initialFrame + i;
         }
 
         /// <summary>
-        /// The verification window that accomodates network delay that is recommended in the RFC
+        /// The verification window that accommodates network delay that is recommended in the RFC
         /// </summary>
-        public static readonly VerificationWindow RfcSpecifiedNetworkDelay = new VerificationWindow(previous: 1, future: 1);
+        public static readonly VerificationWindow RfcSpecifiedNetworkDelay = 
+            new VerificationWindow(previous: 1, future: 1);
     }
 }

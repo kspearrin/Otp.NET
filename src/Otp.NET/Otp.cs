@@ -16,7 +16,7 @@ in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFINGEMENT. IN NO EVENT SHALL
 THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
@@ -39,12 +39,12 @@ namespace OtpNet
         /// <summary>
         /// Secret key
         /// </summary>
-        protected readonly IKeyProvider secretKey;
+        protected readonly IKeyProvider _secretKey;
 
         /// <summary>
         /// The hash mode to use
         /// </summary>
-        protected readonly OtpHashMode hashMode;
+        protected readonly OtpHashMode _hashMode;
 
         /// <summary>
         /// Constructor for the abstract class using an explicit secret key
@@ -53,15 +53,15 @@ namespace OtpNet
         /// <param name="mode">The hash mode to use</param>
         public Otp(byte[] secretKey, OtpHashMode mode)
         {
-            if(!(secretKey != null))
-                throw new ArgumentNullException("secretKey");
-            if(!(secretKey.Length > 0))
+            if(secretKey == null)
+                throw new ArgumentNullException(nameof(secretKey));
+            if(secretKey.Length <= 0)
                 throw new ArgumentException("secretKey empty");
 
             // when passing a key into the constructor the caller may depend on the reference to the key remaining intact.
-            this.secretKey = new InMemoryKey(secretKey);
+            _secretKey = new InMemoryKey(secretKey);
 
-            this.hashMode = mode;
+            _hashMode = mode;
         }
 
         /// <summary>
@@ -71,12 +71,9 @@ namespace OtpNet
         /// <param name="mode">The hash mode to use</param>
         public Otp(IKeyProvider key, OtpHashMode mode)
         {
-            if (key == null)
-                throw new ArgumentNullException("key");
+            _secretKey = key ?? throw new ArgumentNullException(nameof(key));
 
-            this.secretKey = key;
-
-            this.hashMode = mode;
+            _hashMode = mode;
         }
 
         /// <summary>
@@ -92,7 +89,7 @@ namespace OtpNet
         /// </summary>
         protected internal long CalculateOtp(byte[] data, OtpHashMode mode)
         {
-            byte[] hmacComputedHash = this.secretKey.ComputeHmac(mode, data);
+            var hmacComputedHash = _secretKey.ComputeHmac(mode, data);
 
             // The RFC has a hard coded index 19 in this value.
             // This is the same thing but also accomodates SHA256 and SHA512
@@ -110,7 +107,7 @@ namespace OtpNet
         /// </summary>
         protected internal static string Digits(long input, int digitCount)
         {
-            var truncatedValue = ((int)input % (int)Math.Pow(10, digitCount));
+            var truncatedValue = (int)input % (int)Math.Pow(10, digitCount);
             return truncatedValue.ToString().PadLeft(digitCount, '0');
         }
 
@@ -126,9 +123,11 @@ namespace OtpNet
         {
             if(window == null)
                 window = new VerificationWindow();
+            
             foreach(var frame in window.ValidationCandidates(initialStep))
             {
-                var comparisonValue = this.Compute(frame, this.hashMode);
+                var comparisonValue = Compute(frame, _hashMode);
+                
                 if(ValuesEqual(comparisonValue, valueToVerify))
                 {
                     matchedStep = frame;
@@ -149,7 +148,7 @@ namespace OtpNet
             }
 
             var result = 0;
-            for(int i = 0; i < a.Length; i++)
+            for(var i = 0; i < a.Length; i++)
             {
                 result |= a[i] ^ b[i];
             }

@@ -14,20 +14,21 @@ namespace OtpNet
         {
             if(string.IsNullOrEmpty(input))
             {
-                throw new ArgumentNullException("input");
+                throw new ArgumentNullException(nameof(input));
             }
 
             input = input.TrimEnd('='); //remove padding characters
-            int byteCount = input.Length * 5 / 8; //this must be TRUNCATED
-            byte[] returnArray = new byte[byteCount];
+            var byteCount = input.Length * 5 / 8; //this must be TRUNCATED
+            var returnArray = new byte[byteCount];
 
             byte curByte = 0, bitsRemaining = 8;
-            int mask = 0, arrayIndex = 0;
+            var arrayIndex = 0;
 
-            foreach(char c in input)
+            foreach(var c in input)
             {
-                int cValue = CharToValue(c);
+                var cValue = CharToValue(c);
 
+                int mask;
                 if(bitsRemaining > 5)
                 {
                     mask = cValue << (bitsRemaining - 5);
@@ -57,7 +58,7 @@ namespace OtpNet
         {
             if(input == null || input.Length == 0)
             {
-                throw new ArgumentNullException("input");
+                throw new ArgumentNullException(nameof(input));
             }
 
             int charCount = (int)Math.Ceiling(input.Length / 5d) * 8;
@@ -94,7 +95,7 @@ namespace OtpNet
 
         private static int CharToValue(char c)
         {
-            int value = (int)c;
+            int value = c;
 
             //65-90 == uppercase letters
             if(value < 91 && value > 64)
@@ -112,7 +113,7 @@ namespace OtpNet
                 return value - 97;
             }
 
-            throw new ArgumentException("Character is not a Base32 character.", "c");
+            throw new ArgumentException("Character is not a Base32 character.", nameof(c));
         }
 
         private static char ValueToChar(byte b)
@@ -127,7 +128,7 @@ namespace OtpNet
                 return (char)(b + 24);
             }
 
-            throw new ArgumentException("Byte is not a Base32 value.", "b");
+            throw new ArgumentException("Byte is not a Base32 value.", nameof(b));
         }
     }
 }

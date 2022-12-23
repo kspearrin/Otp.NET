@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace OtpNet.Test
 {
-    [TestFixture()]
+    [TestFixture]
     public class TotpTest
     {
         private const string rfc6238SecretSha1 = "12345678901234567890";
@@ -38,7 +38,7 @@ namespace OtpNet.Test
             Assert.That(otp, Is.EqualTo(expectedOtp));
         }
 
-        [Test()]
+        [Test]
         public void ContructorWithKeyProviderTest()
         {
             //Mock a key provider which always returns an all-zero HMAC (causing an all-zero OTP)
