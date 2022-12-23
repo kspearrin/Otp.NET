@@ -13,6 +13,6 @@ namespace OtpNet {
         /// HMAC-based (counter) OTP
         /// see https://datatracker.ietf.org/doc/html/rfc4226
         /// </summary>
-        Hotp,
+        Hotp
     }
 }

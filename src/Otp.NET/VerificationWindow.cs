@@ -54,22 +54,24 @@ namespace OtpNet
         public IEnumerable<long> ValidationCandidates(long initialFrame)
         {
             yield return initialFrame;
-            for(var i = 1; i <= _previous; i++)
+            for (var i = 1; i <= _previous; i++)
             {
                 var val = initialFrame - i;
-                if(val < 0)
+                if (val < 0)
                     break;
                 yield return val;
             }
 
-            for(var i = 1; i <= _future; i++)
+            for (var i = 1; i <= _future; i++)
+            {
                 yield return initialFrame + i;
+            }
         }
 
         /// <summary>
         /// The verification window that accommodates network delay that is recommended in the RFC
         /// </summary>
-        public static readonly VerificationWindow RfcSpecifiedNetworkDelay = 
+        public static readonly VerificationWindow RfcSpecifiedNetworkDelay =
             new VerificationWindow(previous: 1, future: 1);
     }
 }

@@ -11,7 +11,7 @@ namespace OtpNet.Test
         private const string _baseIssuer = "ACME Co";
 
         [TestCase(_baseSecret, OtpType.Totp, _baseUser, _baseIssuer, OtpHashMode.Sha1, 6, 30, 0,
-            "otpauth://totp/ACME%20Co:alice@google.com?secret=JBSWY3DPEHPK3PXP&issuer=ACME%20&algorithm=SHA1&digits=6&period=30")]
+            "otpauth://totp/ACME%20Co:alice@google.com?secret=JBSWY3DPEHPK3PXP&issuer=ACME%20Co&algorithm=SHA1&digits=6&period=30")]
         public void GenerateOtpUriTest(string secret, OtpType otpType, string user, string issuer,
             OtpHashMode hash, int digits, int period, int counter, string expectedUri)
         {

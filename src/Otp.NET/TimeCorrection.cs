@@ -73,7 +73,7 @@ namespace OtpNet
         /// <param name="correctTime">The current correct time</param>
         /// <param name="referenceTime">The current reference time (time that will have the correction
         /// factor applied in subsequent calls)</param>
-        public TimeCorrection(DateTime correctTime, DateTime referenceTime) => 
+        public TimeCorrection(DateTime correctTime, DateTime referenceTime) =>
             CorrectionFactor = referenceTime - correctTime;
 
         /// <summary>

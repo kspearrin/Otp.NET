@@ -24,7 +24,6 @@ DEALINGS IN THE SOFTWARE.
 */
 
 using System;
-using System.Globalization;
 
 namespace OtpNet
 {
@@ -40,12 +39,12 @@ namespace OtpNet
         /// <summary>
         /// The number of ticks as Measured at Midnight Jan 1st 1970;
         /// </summary>
-        private const long UNIX_EPOCH_TICKS = 621355968000000000L;
+        private const long UnicEpocTicks = 621355968000000000L;
 
         /// <summary>
         /// A divisor for converting ticks to seconds
         /// </summary>
-        private const long TICKS_TO_SECONDS = 10000000L;
+        private const long TicksToSeconds = 10000000L;
 
         private readonly int _step;
         private readonly int _totpSize;
@@ -111,11 +110,17 @@ namespace OtpNet
         private static void VerifyParameters(int step, int totpSize)
         {
             if (step <= 0)
+            {
                 throw new ArgumentOutOfRangeException(nameof(step));
+            }
             if (totpSize <= 0)
+            {
                 throw new ArgumentOutOfRangeException(nameof(totpSize));
+            }
             if (totpSize > 10)
+            {
                 throw new ArgumentOutOfRangeException(nameof(totpSize));
+            }
         }
 
         /// <summary>
@@ -123,7 +128,7 @@ namespace OtpNet
         /// </summary>
         /// <param name="timestamp">The timestamp to use for the TOTP calculation</param>
         /// <returns>a TOTP value</returns>
-        public string ComputeTotp(DateTime timestamp) => 
+        public string ComputeTotp(DateTime timestamp) =>
             ComputeTotpFromSpecificTime(_correctedTime.GetCorrectedTime(timestamp));
 
         /// <summary>
@@ -146,7 +151,8 @@ namespace OtpNet
         /// Verify a value that has been provided with the calculated value.
         /// </summary>
         /// <remarks>
-        /// It will be corrected against a corrected UTC time using the provided time correction.  If none was provided then simply the current UTC will be used.
+        /// It will be corrected against a corrected UTC time using the provided time correction.
+        /// If none was provided then simply the current UTC will be used.
         /// </remarks>
         /// <param name="totp">the trial TOTP value</param>
         /// <param name="timeStepMatched">
@@ -156,7 +162,7 @@ namespace OtpNet
         /// </param>
         /// <param name="window">The window of steps to verify</param>
         /// <returns>True if there is a match.</returns>
-        public bool VerifyTotp(string totp, out long timeStepMatched, VerificationWindow window = null) => 
+        public bool VerifyTotp(string totp, out long timeStepMatched, VerificationWindow window = null) =>
             VerifyTotpForSpecificTime(_correctedTime.CorrectedUtcNow, totp, window, out timeStepMatched);
 
         /// <summary>
@@ -173,8 +179,8 @@ namespace OtpNet
         /// <param name="window">The window of steps to verify</param>
         /// <returns>True if there is a match.</returns>
         public bool VerifyTotp(
-            DateTime timestamp, 
-            string totp, 
+            DateTime timestamp,
+            string totp,
             out long timeStepMatched,
             VerificationWindow window = null) =>
             VerifyTotpForSpecificTime(
@@ -184,8 +190,8 @@ namespace OtpNet
                 out timeStepMatched);
 
         private bool VerifyTotpForSpecificTime(
-            DateTime timestamp, 
-            string totp, 
+            DateTime timestamp,
+            string totp,
             VerificationWindow window,
             out long timeStepMatched)
         {
@@ -198,8 +204,8 @@ namespace OtpNet
         /// </summary>
         private long CalculateTimeStepFromTimestamp(DateTime timestamp)
         {
-            var unixTimestamp = (timestamp.Ticks - UNIX_EPOCH_TICKS) / TICKS_TO_SECONDS;
-            var window = unixTimestamp / (long) _step;
+            var unixTimestamp = (timestamp.Ticks - UnicEpocTicks) / TicksToSeconds;
+            var window = unixTimestamp / (long)_step;
             return window;
         }
 
@@ -207,7 +213,8 @@ namespace OtpNet
         /// Remaining seconds in current window based on UtcNow
         /// </summary>
         /// <remarks>
-        /// It will be corrected against a corrected UTC time using the provided time correction.  If none was provided then simply the current UTC will be used.
+        /// It will be corrected against a corrected UTC time using the provided time correction.
+        /// If none was provided then simply the current UTC will be used.
         /// </remarks>
         /// <returns>Number of remaining seconds</returns>
         public int RemainingSeconds()
@@ -223,8 +230,8 @@ namespace OtpNet
         public int RemainingSeconds(DateTime timestamp) =>
             RemainingSecondsForSpecificTime(_correctedTime.GetCorrectedTime(timestamp));
 
-        private int RemainingSecondsForSpecificTime(DateTime timestamp) => 
-            _step - (int) (((timestamp.Ticks - UNIX_EPOCH_TICKS) / TICKS_TO_SECONDS) % _step);
+        private int RemainingSecondsForSpecificTime(DateTime timestamp) =>
+            _step - (int)(((timestamp.Ticks - UnicEpocTicks) / TicksToSeconds) % _step);
 
         /// <summary>
         /// Takes a time step and computes a TOTP code

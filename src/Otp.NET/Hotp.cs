@@ -48,7 +48,6 @@ namespace OtpNet
             : base(secretKey, mode)
         {
             VerifyParameters(hotpSize);
-
             _hotpSize = hotpSize;
         }
 
@@ -68,10 +67,14 @@ namespace OtpNet
 
         private static void VerifyParameters(int hotpSize)
         {
-            if(hotpSize < 6)
+            if (hotpSize < 6)
+            {
                 throw new ArgumentOutOfRangeException(nameof(hotpSize));
-            if(hotpSize > 8)
+            }
+            if (hotpSize > 8)
+            {
                 throw new ArgumentOutOfRangeException(nameof(hotpSize));
+            }
         }
 
         /// <summary>

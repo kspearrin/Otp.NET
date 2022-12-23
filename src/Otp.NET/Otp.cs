@@ -24,7 +24,6 @@ DEALINGS IN THE SOFTWARE.
 */
 
 using System;
-using System.Security.Cryptography;
 
 namespace OtpNet
 {
@@ -53,14 +52,17 @@ namespace OtpNet
         /// <param name="mode">The hash mode to use</param>
         public Otp(byte[] secretKey, OtpHashMode mode)
         {
-            if(secretKey == null)
+            if (secretKey == null)
+            {
                 throw new ArgumentNullException(nameof(secretKey));
-            if(secretKey.Length <= 0)
+            }
+            if (secretKey.Length <= 0)
+            {
                 throw new ArgumentException("secretKey empty");
+            }
 
             // when passing a key into the constructor the caller may depend on the reference to the key remaining intact.
             _secretKey = new InMemoryKey(secretKey);
-
             _hashMode = mode;
         }
 
@@ -72,7 +74,6 @@ namespace OtpNet
         public Otp(IKeyProvider key, OtpHashMode mode)
         {
             _secretKey = key ?? throw new ArgumentNullException(nameof(key));
-
             _hashMode = mode;
         }
 
@@ -121,13 +122,14 @@ namespace OtpNet
         /// <returns>True if a match is found</returns>
         protected bool Verify(long initialStep, string valueToVerify, out long matchedStep, VerificationWindow window)
         {
-            if(window == null)
+            if (window == null)
+            {
                 window = new VerificationWindow();
+            }
             
             foreach(var frame in window.ValidationCandidates(initialStep))
             {
                 var comparisonValue = Compute(frame, _hashMode);
-                
                 if(ValuesEqual(comparisonValue, valueToVerify))
                 {
                     matchedStep = frame;

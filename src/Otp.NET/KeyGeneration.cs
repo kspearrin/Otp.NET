@@ -41,7 +41,7 @@ namespace OtpNet
         public static byte[] GenerateRandomKey(int length)
         {
             var key = new byte[length];
-            using(var rnd = RandomNumberGenerator.Create())
+            using (var rnd = RandomNumberGenerator.Create())
             {
                 rnd.GetBytes(key);
                 return key;
@@ -66,13 +66,14 @@ namespace OtpNet
         /// <param name="mode">The hash mode to use.  This will determine the resulting key lenght.  The default is sha-1 (as per the RFC) which is 20 bytes</param>
         /// <returns>Derived key</returns>
         public static byte[] DeriveKeyFromMaster(
-            IKeyProvider masterKey, 
-            byte[] publicIdentifier, 
+            IKeyProvider masterKey,
+            byte[] publicIdentifier,
             OtpHashMode mode = OtpHashMode.Sha1)
         {
-            if(masterKey == null)
+            if (masterKey == null)
+            {
                 throw new ArgumentNullException(nameof(masterKey));
-            
+            }
             return masterKey.ComputeHmac(mode, publicIdentifier);
         }
 
@@ -86,32 +87,34 @@ namespace OtpNet
         /// <returns>Derived key</returns>
         public static byte[] DeriveKeyFromMaster(
             IKeyProvider masterKey,
-            int serialNumber, 
-            OtpHashMode mode = OtpHashMode.Sha1) => 
+            int serialNumber,
+            OtpHashMode mode = OtpHashMode.Sha1) =>
             DeriveKeyFromMaster(masterKey, KeyUtilities.GetBigEndianBytes(serialNumber), mode);
 
         private static HashAlgorithm GetHashAlgorithmForMode(OtpHashMode mode)
         {
-            switch(mode)
+            switch (mode)
             {
                 case OtpHashMode.Sha256:
                     return SHA256.Create();
                 case OtpHashMode.Sha512:
                     return SHA512.Create();
-                default: //case OtpHashMode.Sha1:
+                // case OtpHashMode.Sha1:
+                default:
                     return SHA1.Create();
             }
         }
 
         private static int LengthForMode(OtpHashMode mode)
         {
-            switch(mode)
+            switch (mode)
             {
                 case OtpHashMode.Sha256:
                     return 32;
                 case OtpHashMode.Sha512:
                     return 64;
-                default: //case OtpHashMode.Sha1:
+                // case OtpHashMode.Sha1:
+                default:
                     return 20;
             }
         }

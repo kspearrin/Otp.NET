@@ -49,8 +49,6 @@ namespace OtpNet
     /// </remarks>
     public class InMemoryKey : IKeyProvider
     {
-        private static readonly object _platformSupportSync = new object();
-
         private readonly object _stateSync = new object();
         private readonly byte[] _keyData;
         private readonly int _keyLength;
@@ -61,10 +59,14 @@ namespace OtpNet
         /// <param name="key">Plaintext key data</param>
         public InMemoryKey(byte[] key)
         {
-            if(key == null)
+            if (key == null)
+            {
                 throw new ArgumentNullException(nameof(key));
-            if(key.Length <= 0)
+            }
+            if (key.Length <= 0)
+            {
                 throw new ArgumentException("The key must not be empty");
+            }
 
             _keyLength = key.Length;
             var paddedKeyLength = (int)Math.Ceiling((decimal)key.Length / (decimal)16) * 16;
@@ -82,7 +84,7 @@ namespace OtpNet
         internal byte[] GetCopyOfKey()
         {
             var plainKey = new byte[_keyLength];
-            lock(_stateSync)
+            lock (_stateSync)
             {
                 Array.Copy(_keyData, plainKey, _keyLength);
             }
@@ -98,7 +100,7 @@ namespace OtpNet
         public byte[] ComputeHmac(OtpHashMode mode, byte[] data)
         {
             byte[] hashedValue;
-            using(var hmac = CreateHmacHash(mode))
+            using (var hmac = CreateHmacHash(mode))
             {
                 var key = GetCopyOfKey();
                 try
@@ -121,7 +123,7 @@ namespace OtpNet
         private static HMAC CreateHmacHash(OtpHashMode otpHashMode)
         {
             HMAC hmacAlgorithm;
-            switch(otpHashMode)
+            switch (otpHashMode)
             {
                 case OtpHashMode.Sha256:
                     hmacAlgorithm = new HMACSHA256();
@@ -129,7 +131,8 @@ namespace OtpNet
                 case OtpHashMode.Sha512:
                     hmacAlgorithm = new HMACSHA512();
                     break;
-                default: //case OtpHashMode.Sha1:
+                // case OtpHashMode.Sha1:
+                default:
                     hmacAlgorithm = new HMACSHA1();
                     break;
             }
