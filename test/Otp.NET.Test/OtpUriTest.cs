@@ -15,8 +15,7 @@ namespace OtpNet.Test
         public void GenerateOtpUriTest(string secret, OtpType otpType, string user, string issuer,
             OtpHashMode hash, int digits, int period, int counter, string expectedUri)
         {
-            var sec = Base32Encoding.ToBytes(secret);
-            var uriString = new OtpUri(otpType, sec, user, issuer, hash, digits, period, counter).ToString();
+            var uriString = new OtpUri(otpType, secret, user, issuer, hash, digits, period, counter).ToString();
             Assert.That(uriString, Is.EqualTo(expectedUri));
         }
     }

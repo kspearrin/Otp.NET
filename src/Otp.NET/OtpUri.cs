@@ -17,7 +17,7 @@ namespace OtpNet
         /// The secret parameter is an arbitrary key value encoded in Base32 according to RFC 3548.
         /// The padding specified in RFC 3548 section 2.2 is not required and should be omitted.
         /// </summary>
-        public readonly byte[] Secret;
+        public readonly string Secret;
 
         /// <summary>
         /// Which account a key is associated with
@@ -52,11 +52,11 @@ namespace OtpNet
 
 
         /// <summary>
-        /// Create a new OTPAuthUri
+        /// Create a new OTP Auth Uri
         /// </summary>
         public OtpUri(
             OtpType schema,
-            byte[] secret,
+            string secret,
             string user,
             string issuer = null,
             OtpHashMode algorithm = OtpHashMode.Sha1,
@@ -90,6 +90,22 @@ namespace OtpNet
         }
 
         /// <summary>
+        /// Create a new OTP Auth Uri
+        /// </summary>
+        public OtpUri(
+            OtpType schema,
+            byte[] secret,
+            string user,
+            string issuer = null,
+            OtpHashMode algorithm = OtpHashMode.Sha1,
+            int digits = 6,
+            int period = 30,
+            int counter = 0)
+            : this(schema, Base32Encoding.ToString(secret), user, issuer,
+                  algorithm, digits, period, counter)
+        { }
+
+        /// <summary>
         /// Generates a Uri according to the parameters
         /// </summary>
         /// <returns>a Uri according to the parameters</returns>
@@ -106,7 +122,7 @@ namespace OtpNet
         {
             var parameters = new Dictionary<string, string>
             {
-                { "secret", Base32Encoding.ToString(Secret) }
+                { "secret", Secret }
             };
 
             if (!string.IsNullOrWhiteSpace(Issuer))
