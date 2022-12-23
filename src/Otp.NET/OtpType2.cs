@@ -2,17 +2,17 @@ namespace OtpNet {
     /// <summary>
     /// Schema types for OTPs
     /// </summary>
-    public enum OTPType
+    public enum OtpType2
     {
         /// <summary>
         /// Time-based OTP
         /// see https://datatracker.ietf.org/doc/html/rfc6238
         /// </summary>
-        TOTP,
+        Totp,
         /// <summary>
         /// HMAC-based (counter) OTP
         /// see https://datatracker.ietf.org/doc/html/rfc4226
         /// </summary>
-        HOTP,
+        Hotp,
     }
 }

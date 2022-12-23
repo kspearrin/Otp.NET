@@ -2,14 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace OtpNet {
-    public class OTPUri
+namespace OtpNet
+{
+    // See https://github.com/google/google-authenticator/wiki/Key-Uri-Format
+    public class OtpUri
     {
         /// <summary>
         /// What type of OTP is this uri for
-        /// <seealso cref="OTPType"/>
+        /// <seealso cref="OtpType"/>
         /// </summary>
-        public readonly OTPType Type;
+        public readonly OtpType Type;
 
         /// <summary>
         /// The secret parameter is an arbitrary key value encoded in Base32 according to RFC 3548.
@@ -52,39 +54,48 @@ namespace OtpNet {
         /// <summary>
         /// Create a new OTPAuthUri
         /// </summary>
-        public OTPUri(
-            OTPType schema,
+        public OtpUri(
+            OtpType schema,
             byte[] secret,
             string user,
             string issuer = null,
             OtpHashMode algorithm = OtpHashMode.Sha1,
             int digits = 6,
             int period = 30,
-            int counter = 0
-        )
+            int counter = 0)
         {
             _ = secret ?? throw new ArgumentNullException(nameof(secret));
             _ = user ?? throw new ArgumentNullException(nameof(user));
+            if (digits < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(digits));
+            }
+
             Type = schema;
             Secret = secret;
             User = user;
             Issuer = issuer;
             Algorithm = algorithm;
-            if (digits < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(digits));
-            }
             Digits = digits;
+
             switch (Type)
             {
-
-                case OTPType.TOTP:
+                case OtpType.Totp:
                     Period = period;
                     break;
-                case OTPType.HOTP:
+                case OtpType.Hotp:
                     Counter = counter;
                     break;
             }
+        }
+
+        /// <summary>
+        /// Generates a Uri according to the parameters
+        /// </summary>
+        /// <returns>a Uri according to the parameters</returns>
+        public Uri ToUri()
+        {
+            return new Uri(ToString());
         }
 
         /// <summary>
@@ -93,9 +104,11 @@ namespace OtpNet {
         /// <returns>a Uri String according to the parameters</returns>
         public override string ToString()
         {
-            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            var parameters = new Dictionary<string, string>
+            {
+                { "secret", Base32Encoding.ToString(Secret) }
+            };
 
-            parameters.Add("secret", Base32Encoding.ToString(Secret));
             if (Issuer != null)
             {
                 parameters.Add("issuer", Issuer);
@@ -105,16 +118,16 @@ namespace OtpNet {
 
             switch (Type)
             {
-                case OTPType.TOTP:
+                case OtpType.Totp:
                     parameters.Add("period", Period.ToString());
                     break;
-                case OTPType.HOTP:
+                case OtpType.Hotp:
                     parameters.Add("counter", Counter.ToString());
                     break;
             }
 
-            StringBuilder uriBuilder = new StringBuilder("otpauth://");
-            uriBuilder.Append(Type.ToString().ToLower());
+            var uriBuilder = new StringBuilder("otpauth://");
+            uriBuilder.Append(Type.ToString().ToLowerInvariant());
             uriBuilder.Append("/");
             // The label
             if (Issuer != null)
@@ -126,15 +139,15 @@ namespace OtpNet {
             // Start of the parameters
             uriBuilder.Append("?");
 
-            foreach (KeyValuePair<string, string> pair in parameters)
+            foreach (var pair in parameters)
             {
                 uriBuilder.Append(pair.Key);
                 uriBuilder.Append("=");
                 uriBuilder.Append(pair.Value);
                 uriBuilder.Append("&");
             }
-            uriBuilder.Remove(uriBuilder.Length - 1, 1); // Remove last "&"
 
+            uriBuilder.Remove(uriBuilder.Length - 1, 1); // Remove last "&"
             return Uri.EscapeUriString(uriBuilder.ToString());
         }
     }
