@@ -109,7 +109,7 @@ namespace OtpNet
                 { "secret", Base32Encoding.ToString(Secret) }
             };
 
-            if (Issuer != null)
+            if (!string.IsNullOrWhiteSpace(Issuer))
             {
                 parameters.Add("issuer", Issuer);
             }
@@ -129,16 +129,17 @@ namespace OtpNet
             var uriBuilder = new StringBuilder("otpauth://");
             uriBuilder.Append(Type.ToString().ToLowerInvariant());
             uriBuilder.Append("/");
+
             // The label
-            if (Issuer != null)
+            if (!string.IsNullOrWhiteSpace(Issuer))
             {
                 uriBuilder.Append(Issuer);
                 uriBuilder.Append(":");
             }
             uriBuilder.Append(User);
+
             // Start of the parameters
             uriBuilder.Append("?");
-
             foreach (var pair in parameters)
             {
                 uriBuilder.Append(pair.Key);
@@ -146,8 +147,9 @@ namespace OtpNet
                 uriBuilder.Append(pair.Value);
                 uriBuilder.Append("&");
             }
+            // Remove last "&"
+            uriBuilder.Remove(uriBuilder.Length - 1, 1);
 
-            uriBuilder.Remove(uriBuilder.Length - 1, 1); // Remove last "&"
             return Uri.EscapeUriString(uriBuilder.ToString());
         }
     }

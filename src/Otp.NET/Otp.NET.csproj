@@ -17,7 +17,6 @@ For documentation and examples visit the project website on GitHub at https://gi
     <PackageIconUrl>http://i.imgur.com/XFfC64v.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/kspearrin/Otp.NET</RepositoryUrl>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>vs-signing-key.pfx</AssemblyOriginatorKeyFile>
     <RootNamespace>OtpNet</RootNamespace>
   </PropertyGroup>
 
