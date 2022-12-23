@@ -18,6 +18,9 @@ For documentation and examples visit the project website on GitHub at https://gi
     <RepositoryUrl>https://github.com/kspearrin/Otp.NET</RepositoryUrl>
     <SignAssembly>true</SignAssembly>
     <RootNamespace>OtpNet</RootNamespace>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)' == 'Release' ">
     <AssemblyOriginatorKeyFile>vs-signing-key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
