@@ -8,8 +8,14 @@ An implementation TOTP [RFC 6238](http://tools.ietf.org/html/rfc6238) and HOTP [
 
 https://www.nuget.org/packages/Otp.NET
 
+```powershell
+Install-Package Otp.NET 
 ```
-PM> Install-Package Otp.NET 
+
+or
+
+```bash
+dotnet add package Otp.NET
 ```
 
 ## Documentation
