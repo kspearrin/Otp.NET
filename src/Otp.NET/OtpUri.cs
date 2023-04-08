@@ -50,7 +50,6 @@ namespace OtpNet
         /// </summary>
         public readonly int Counter;
 
-
         /// <summary>
         /// Create a new OTP Auth Uri
         /// </summary>
@@ -122,7 +121,7 @@ namespace OtpNet
         {
             var parameters = new Dictionary<string, string>
             {
-                { "secret", Secret }
+                { "secret", Secret.TrimEnd('=') }
             };
 
             if (!string.IsNullOrWhiteSpace(Issuer))
