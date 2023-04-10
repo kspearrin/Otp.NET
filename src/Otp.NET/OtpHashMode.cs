@@ -23,24 +23,23 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 */
 
-namespace OtpNet
+namespace OtpNet;
+
+/// <summary>
+/// Indicates which HMAC hashing algorithm should be used
+/// </summary>
+public enum OtpHashMode
 {
     /// <summary>
-    /// Indicates which HMAC hashing algorithm should be used
+    /// Sha1 is used as the HMAC hashing algorithm
     /// </summary>
-    public enum OtpHashMode
-    {
-        /// <summary>
-        /// Sha1 is used as the HMAC hashing algorithm
-        /// </summary>
-        Sha1,
-        /// <summary>
-        /// Sha256 is used as the HMAC hashing algorithm
-        /// </summary>
-        Sha256,
-        /// <summary>
-        /// Sha512 is used as the HMAC hashing algorithm
-        /// </summary>
-        Sha512
-    }
+    Sha1,
+    /// <summary>
+    /// Sha256 is used as the HMAC hashing algorithm
+    /// </summary>
+    Sha256,
+    /// <summary>
+    /// Sha512 is used as the HMAC hashing algorithm
+    /// </summary>
+    Sha512
 }

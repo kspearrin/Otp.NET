@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <LangVersion>latest</LangVersion>
     <Version>1.3.0</Version>
     <TargetFrameworks>net461;net5.0;net6.0;net7.0;netstandard2.0</TargetFrameworks>
     <PackageId>Otp.NET</PackageId>
@@ -24,11 +25,6 @@ For documentation and examples visit the project website on GitHub at https://gi
   <PropertyGroup Condition="'$(Configuration)' == 'Release' ">
     <AssemblyOriginatorKeyFile>vs-signing-key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
 
   <ItemGroup>
     <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
