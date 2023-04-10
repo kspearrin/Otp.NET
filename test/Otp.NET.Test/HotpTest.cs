@@ -6,7 +6,7 @@ namespace OtpNet.Test;
 [TestFixture]
 public class HotpTest
 {
-    private static readonly byte[] rfc4226Secret = {
+    private static readonly byte[] _rfc4226Secret = {
         0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38,
         0x39, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36,
         0x37, 0x38, 0x39, 0x30
@@ -24,16 +24,16 @@ public class HotpTest
     [TestCase(OtpHashMode.Sha1, 9, "520489")]
     public void ComputeHOTPRfc4226Test(OtpHashMode hash, long counter, string expectedOtp)
     {
-        Hotp otpCalc = new Hotp(rfc4226Secret, hash, expectedOtp.Length);
-        string otp = otpCalc.ComputeHOTP(counter);
+        var otpCalc = new Hotp(_rfc4226Secret, hash, expectedOtp.Length);
+        var otp = otpCalc.ComputeHOTP(counter);
         Assert.That(otp, Is.EqualTo(expectedOtp));
     }
 
     [Test]
     public void ContructorWithKeyProviderTest()
     {
-        //Mock a key provider which always returns an all-zero HMAC (causing an all-zero OTP)
-        Mock<IKeyProvider> keyMock = new Mock<IKeyProvider>();
+        // Mock a key provider which always returns an all-zero HMAC (causing an all-zero OTP)
+        var keyMock = new Mock<IKeyProvider>();
         keyMock.Setup(key => key.ComputeHmac(It.Is<OtpHashMode>(m => m == OtpHashMode.Sha1), It.IsAny<byte[]>())).Returns(new byte[20]);
 
         var otp = new Hotp(keyMock.Object, OtpHashMode.Sha1, 6);
