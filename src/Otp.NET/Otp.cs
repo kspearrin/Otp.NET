@@ -46,6 +46,11 @@ public abstract class Otp
     protected readonly OtpHashMode _hashMode;
 
     /// <summary>
+    /// Gets the hash mode to use
+    /// </summary>
+    public OtpHashMode HashMode => _hashMode;
+
+    /// <summary>
     /// Constructor for the abstract class using an explicit secret key
     /// </summary>
     /// <param name="secretKey"></param>

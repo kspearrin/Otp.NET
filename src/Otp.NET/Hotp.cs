@@ -39,6 +39,11 @@ public class Hotp : Otp
     private readonly int _hotpSize;
 
     /// <summary>
+    /// Gets the number of diigts that the returning HOTP should have.
+    /// </summary>
+    public int HotpSize => _hotpSize;
+
+    /// <summary>
     /// Create a HOTP instance
     /// </summary>
     /// <param name="secretKey">The secret key to use in HOTP calculations</param>
