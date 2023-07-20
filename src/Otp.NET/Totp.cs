@@ -51,6 +51,21 @@ public class Totp : Otp
     private readonly TimeCorrection _correctedTime;
 
     /// <summary>
+    /// Gets the time window step amount to use in calculating time windows
+    /// </summary>
+    public int Step => _step;
+    
+    /// <summary>
+    /// Gets the number of digits that the returning TOTP should have
+    /// </summary>
+    public int TotpSize => _totpSize;
+    
+    /// <summary>
+    /// Gets the time correction to componensate out of sync local clock
+    /// </summary>
+    public TimeCorrection TimeCorrection => _correctedTime;
+
+    /// <summary>
     /// Create a TOTP instance
     /// </summary>
     /// <param name="secretKey">The secret key to use in TOTP calculations</param>
