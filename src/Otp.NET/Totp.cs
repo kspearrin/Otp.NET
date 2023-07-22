@@ -249,6 +249,25 @@ public class Totp : Otp
         _step - (int)(((timestamp.Ticks - UnicEpocTicks) / TicksToSeconds) % _step);
 
     /// <summary>
+    /// Start of the current window based on UtcNow
+    /// </summary>
+    /// <remarks>
+    /// It will be corrected against a corrected UTC time using the provided time correction.
+    /// If none was provided then simply the current UTC will be used.
+    /// </remarks>
+    /// <returns>Start of the current window</returns>
+    public DateTime WindowStart()
+    {
+        return WindowStartForSpecificTime(_correctedTime.CorrectedUtcNow);
+    }
+
+    public DateTime WindowStart(DateTime timestamp) =>
+        WindowStartForSpecificTime(_correctedTime.GetCorrectedTime(timestamp));
+
+    private DateTime WindowStartForSpecificTime(DateTime timestamp) =>
+        timestamp.AddTicks(-(timestamp.Ticks - UnicEpocTicks) % (TicksToSeconds * _step));
+
+    /// <summary>
     /// Takes a time step and computes a TOTP code
     /// </summary>
     /// <param name="counter">time step</param>
