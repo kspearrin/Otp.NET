@@ -1,9 +1,11 @@
+image: Visual Studio 2022
+
 before_build:
   - dotnet restore
 
 build_script:
-  - dotnet build -c "Release" --no-restore
-  - dotnet pack ./src/Otp.NET/Otp.NET.csproj --no-build -o ./dist  -c "Release"
+  - dotnet build -c "Debug" --no-restore
+  - dotnet pack ./src/Otp.NET/Otp.NET.csproj --no-build -o ./dist  -c "Debug"
 
 test_script:
   - dotnet test --no-build
