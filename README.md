@@ -193,7 +193,7 @@ var hotp = new Hotp(secretKey, mode: OtpHashMode.Sha512);
 Finally the truncation level can be specified.  Basically this is how many digits do you want your HOTP code to be.  The tests in the RFC specify 8, but 6 has become a de-facto standard if not an actual one.  For this reason the default is 6 but you can set it to something else.  There aren't a lot of tests around this either so use at your own risk (other than the fact that the RFC test table uses HOTP values that are 8 digits).
 
 ```c#
-var hotp = new Hotp(secretKey, totpSize: 8);
+var hotp = new Hotp(secretKey, hotpSize: 8);
 ```
 
 #### Verification
