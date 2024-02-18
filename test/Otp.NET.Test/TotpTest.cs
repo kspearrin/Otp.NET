@@ -30,6 +30,9 @@ public class TotpTest
     [TestCase(Rfc6238SecretSha1, OtpHashMode.Sha1, 20000000000, "65353130")]
     [TestCase(Rfc6238SecretSha256, OtpHashMode.Sha256, 20000000000, "77737706")]
     [TestCase(Rfc6238SecretSha512, OtpHashMode.Sha512, 20000000000, "47863826")]
+    [TestCase(Rfc6238SecretSha1, OtpHashMode.Sha1, 20000000000, "353130")]
+    [TestCase(Rfc6238SecretSha256, OtpHashMode.Sha256, 20000000000, "737706")]
+    [TestCase(Rfc6238SecretSha512, OtpHashMode.Sha512, 20000000000, "863826")]
     public void ComputeTOTPTest(string secret, OtpHashMode hash, long timestamp, string expectedOtp)
     {
         var otpCalc = new Totp(Encoding.UTF8.GetBytes(secret), 30, hash, expectedOtp.Length);
