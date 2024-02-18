@@ -89,31 +89,14 @@ public static class KeyGeneration
         OtpHashMode mode = OtpHashMode.Sha1) =>
         DeriveKeyFromMaster(masterKey, KeyUtilities.GetBigEndianBytes(serialNumber), mode);
 
-    private static HashAlgorithm GetHashAlgorithmForMode(OtpHashMode mode)
-    {
-        switch (mode)
-        {
-            case OtpHashMode.Sha256:
-                return SHA256.Create();
-            case OtpHashMode.Sha512:
-                return SHA512.Create();
-            // case OtpHashMode.Sha1:
-            default:
-                return SHA1.Create();
-        }
-    }
-
     private static int LengthForMode(OtpHashMode mode)
     {
-        switch (mode)
+        return mode switch
         {
-            case OtpHashMode.Sha256:
-                return 32;
-            case OtpHashMode.Sha512:
-                return 64;
+            OtpHashMode.Sha256 => 32,
+            OtpHashMode.Sha512 => 64,
             // case OtpHashMode.Sha1:
-            default:
-                return 20;
-        }
+            _ => 20,
+        };
     }
 }

@@ -49,7 +49,7 @@ namespace OtpNet;
 /// </remarks>
 public class InMemoryKey : IKeyProvider
 {
-    private readonly object _stateSync = new object();
+    private readonly object _stateSync = new();
     private readonly byte[] _keyData;
     private readonly int _keyLength;
 
@@ -122,20 +122,13 @@ public class InMemoryKey : IKeyProvider
     /// </summary>
     private static HMAC CreateHmacHash(OtpHashMode otpHashMode)
     {
-        HMAC hmacAlgorithm;
-        switch (otpHashMode)
+        HMAC hmacAlgorithm = otpHashMode switch
         {
-            case OtpHashMode.Sha256:
-                hmacAlgorithm = new HMACSHA256();
-                break;
-            case OtpHashMode.Sha512:
-                hmacAlgorithm = new HMACSHA512();
-                break;
+            OtpHashMode.Sha256 => new HMACSHA256(),
+            OtpHashMode.Sha512 => new HMACSHA512(),
             // case OtpHashMode.Sha1:
-            default:
-                hmacAlgorithm = new HMACSHA1();
-                break;
-        }
+            _ => new HMACSHA1(),
+        };
         return hmacAlgorithm;
     }
 }

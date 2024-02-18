@@ -8,49 +8,6 @@ namespace OtpNet;
 public class OtpUri
 {
     /// <summary>
-    /// What type of OTP is this uri for
-    /// <seealso cref="OtpType"/>
-    /// </summary>
-    public readonly OtpType Type;
-
-    /// <summary>
-    /// The secret parameter is an arbitrary key value encoded in Base32 according to RFC 3548.
-    /// The padding specified in RFC 3548 section 2.2 is not required and should be omitted.
-    /// </summary>
-    public readonly string Secret;
-
-    /// <summary>
-    /// Which account a key is associated with
-    /// </summary>
-    public readonly string User;
-
-    /// <summary>
-    /// The issuer parameter is a string value indicating the provider or service this account is
-    /// associated with, URL-encoded according to RFC 3986.
-    /// </summary>
-    public readonly string Issuer;
-
-    /// <summary>
-    /// The algorithm used by the generator
-    /// </summary>
-    public readonly OtpHashMode Algorithm;
-
-    /// <summary>
-    /// The amount of digits in the final code
-    /// </summary>
-    public readonly int Digits;
-
-    /// <summary>
-    /// The number of seconds that a code is valid. Only applies to TOTP, not HOTP
-    /// </summary>
-    public readonly int Period;
-
-    /// <summary>
-    /// Initial counter value for HOTP. This is ignored when using TOTP.
-    /// </summary>
-    public readonly int Counter;
-
-    /// <summary>
     /// Create a new OTP Auth Uri
     /// </summary>
     public OtpUri(
@@ -103,6 +60,49 @@ public class OtpUri
         : this(schema, Base32Encoding.ToString(secret), user, issuer,
               algorithm, digits, period, counter)
     { }
+
+    /// <summary>
+    /// What type of OTP is this uri for
+    /// <seealso cref="OtpType"/>
+    /// </summary>
+    public OtpType Type { get; private set; }
+
+    /// <summary>
+    /// The secret parameter is an arbitrary key value encoded in Base32 according to RFC 3548.
+    /// The padding specified in RFC 3548 section 2.2 is not required and should be omitted.
+    /// </summary>
+    public string Secret { get; private set; }
+
+    /// <summary>
+    /// Which account a key is associated with
+    /// </summary>
+    public string User { get; private set; }
+
+    /// <summary>
+    /// The issuer parameter is a string value indicating the provider or service this account is
+    /// associated with, URL-encoded according to RFC 3986.
+    /// </summary>
+    public string Issuer { get; private set; }
+
+    /// <summary>
+    /// The algorithm used by the generator
+    /// </summary>
+    public OtpHashMode Algorithm { get; private set; }
+
+    /// <summary>
+    /// The amount of digits in the final code
+    /// </summary>
+    public int Digits { get; private set; }
+
+    /// <summary>
+    /// The number of seconds that a code is valid. Only applies to TOTP, not HOTP
+    /// </summary>
+    public int Period { get; private set; }
+
+    /// <summary>
+    /// Initial counter value for HOTP. This is ignored when using TOTP.
+    /// </summary>
+    public int Counter { get; private set; }
 
     /// <summary>
     /// Generates a Uri according to the parameters

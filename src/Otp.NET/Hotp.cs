@@ -36,13 +36,6 @@ namespace OtpNet;
 /// </remarks>
 public class Hotp : Otp
 {
-    private readonly int _hotpSize;
-
-    /// <summary>
-    /// Gets the number of diigts that the returning HOTP should have.
-    /// </summary>
-    public int HotpSize => _hotpSize;
-
     /// <summary>
     /// Create a HOTP instance
     /// </summary>
@@ -53,7 +46,7 @@ public class Hotp : Otp
         : base(secretKey, mode)
     {
         VerifyParameters(hotpSize);
-        _hotpSize = hotpSize;
+        HotpSize = hotpSize;
     }
 
     /// <summary>
@@ -66,21 +59,13 @@ public class Hotp : Otp
         : base(key, mode)
     {
         VerifyParameters(hotpSize);
-
-        _hotpSize = hotpSize;
+        HotpSize = hotpSize;
     }
 
-    private static void VerifyParameters(int hotpSize)
-    {
-        if (hotpSize < 6)
-        {
-            throw new ArgumentOutOfRangeException(nameof(hotpSize));
-        }
-        if (hotpSize > 8)
-        {
-            throw new ArgumentOutOfRangeException(nameof(hotpSize));
-        }
-    }
+    /// <summary>
+    /// Gets the number of digits that the returning HOTP should have.
+    /// </summary>
+    public int HotpSize { get; private set; }
 
     /// <summary>
     /// Takes a counter and then computes a HOTP value
@@ -108,6 +93,18 @@ public class Hotp : Otp
     {
         var data = KeyUtilities.GetBigEndianBytes(counter);
         var otp = CalculateOtp(data, mode);
-        return Digits(otp, _hotpSize);
+        return Digits(otp, HotpSize);
+    }
+
+    private static void VerifyParameters(int hotpSize)
+    {
+        if (hotpSize < 6)
+        {
+            throw new ArgumentOutOfRangeException(nameof(hotpSize));
+        }
+        if (hotpSize > 8)
+        {
+            throw new ArgumentOutOfRangeException(nameof(hotpSize));
+        }
     }
 }

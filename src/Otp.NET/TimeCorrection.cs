@@ -47,7 +47,7 @@ public class TimeCorrection
     /// <summary>
     /// An instance that provides no correction factor
     /// </summary>
-    public static readonly TimeCorrection UncorrectedInstance = new TimeCorrection();
+    public static readonly TimeCorrection UncorrectedInstance = new();
 
     /// <summary>
     /// Constructor used solely for the UncorrectedInstance static field to provide an instance without
@@ -77,11 +77,9 @@ public class TimeCorrection
         CorrectionFactor = referenceTime - correctTime;
 
     /// <summary>
-    /// Applies the correction factor to the reference time and returns a corrected time
+    /// The timespan that is used to calculate a corrected time
     /// </summary>
-    /// <param name="referenceTime">The reference time</param>
-    /// <returns>The reference time with the correction factor applied</returns>
-    public DateTime GetCorrectedTime(DateTime referenceTime) => referenceTime - CorrectionFactor;
+    public TimeSpan CorrectionFactor { get; }
 
     /// <summary>
     /// Applies the correction factor to the current system UTC time and returns a corrected time
@@ -89,7 +87,9 @@ public class TimeCorrection
     public DateTime CorrectedUtcNow => GetCorrectedTime(DateTime.UtcNow);
 
     /// <summary>
-    /// The timespan that is used to calculate a corrected time
+    /// Applies the correction factor to the reference time and returns a corrected time
     /// </summary>
-    public TimeSpan CorrectionFactor { get; }
+    /// <param name="referenceTime">The reference time</param>
+    /// <returns>The reference time with the correction factor applied</returns>
+    public DateTime GetCorrectedTime(DateTime referenceTime) => referenceTime - CorrectionFactor;
 }

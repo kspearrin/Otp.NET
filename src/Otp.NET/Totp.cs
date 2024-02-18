@@ -46,25 +46,6 @@ public class Totp : Otp
     /// </summary>
     private const long TicksToSeconds = 10000000L;
 
-    private readonly int _step;
-    private readonly int _totpSize;
-    private readonly TimeCorrection _correctedTime;
-
-    /// <summary>
-    /// Gets the time window step amount to use in calculating time windows
-    /// </summary>
-    public int Step => _step;
-    
-    /// <summary>
-    /// Gets the number of digits that the returning TOTP should have
-    /// </summary>
-    public int TotpSize => _totpSize;
-    
-    /// <summary>
-    /// Gets the time correction to componensate out of sync local clock
-    /// </summary>
-    public TimeCorrection TimeCorrection => _correctedTime;
-
     /// <summary>
     /// Create a TOTP instance
     /// </summary>
@@ -85,12 +66,12 @@ public class Totp : Otp
     {
         VerifyParameters(step, totpSize);
 
-        _step = step;
-        _totpSize = totpSize;
+        Step = step;
+        TotpSize = totpSize;
 
         // we never null check the corrected time object.  Since it's readonly, we'll
         // ensure that it isn't null here and provide neutral functionality in this case.
-        _correctedTime = timeCorrection ?? TimeCorrection.UncorrectedInstance;
+        TimeCorrection = timeCorrection ?? TimeCorrection.UncorrectedInstance;
     }
 
     /// <summary>
@@ -114,29 +95,28 @@ public class Totp : Otp
     {
         VerifyParameters(step, totpSize);
 
-        _step = step;
-        _totpSize = totpSize;
+        Step = step;
+        TotpSize = totpSize;
 
         // we never null check the corrected time object.
         // Since it's readonly, we'll ensure that it isn't null here and provide neutral functionality in this case.
-        _correctedTime = timeCorrection ?? TimeCorrection.UncorrectedInstance;
+        TimeCorrection = timeCorrection ?? TimeCorrection.UncorrectedInstance;
     }
 
-    private static void VerifyParameters(int step, int totpSize)
-    {
-        if (step <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(step));
-        }
-        if (totpSize <= 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(totpSize));
-        }
-        if (totpSize > 10)
-        {
-            throw new ArgumentOutOfRangeException(nameof(totpSize));
-        }
-    }
+    /// <summary>
+    /// Gets the time window step amount to use in calculating time windows
+    /// </summary>
+    public int Step { get; private set; }
+
+    /// <summary>
+    /// Gets the number of digits that the returning TOTP should have
+    /// </summary>
+    public int TotpSize { get; private set; }
+
+    /// <summary>
+    /// Gets the time correction to componensate out of sync local clock
+    /// </summary>
+    public TimeCorrection TimeCorrection { get; private set; }
 
     /// <summary>
     /// Takes a timestamp and applies correction (if provided) and then computes a TOTP value
@@ -144,7 +124,7 @@ public class Totp : Otp
     /// <param name="timestamp">The timestamp to use for the TOTP calculation</param>
     /// <returns>a TOTP value</returns>
     public string ComputeTotp(DateTime timestamp) =>
-        ComputeTotpFromSpecificTime(_correctedTime.GetCorrectedTime(timestamp));
+        ComputeTotpFromSpecificTime(TimeCorrection.GetCorrectedTime(timestamp));
 
     /// <summary>
     /// Takes a timestamp and computes a TOTP value for corrected UTC now
@@ -154,13 +134,7 @@ public class Totp : Otp
     /// If none was provided then simply the current UTC will be used.
     /// </remarks>
     /// <returns>a TOTP value</returns>
-    public string ComputeTotp() => ComputeTotpFromSpecificTime(_correctedTime.CorrectedUtcNow);
-
-    private string ComputeTotpFromSpecificTime(DateTime timestamp)
-    {
-        var window = CalculateTimeStepFromTimestamp(timestamp);
-        return Compute(window, _hashMode);
-    }
+    public string ComputeTotp() => ComputeTotpFromSpecificTime(TimeCorrection.CorrectedUtcNow);
 
     /// <summary>
     /// Verify a value that has been provided with the calculated value.
@@ -178,7 +152,7 @@ public class Totp : Otp
     /// <param name="window">The window of steps to verify</param>
     /// <returns>True if there is a match.</returns>
     public bool VerifyTotp(string totp, out long timeStepMatched, VerificationWindow window = null) =>
-        VerifyTotpForSpecificTime(_correctedTime.CorrectedUtcNow, totp, window, out timeStepMatched);
+        VerifyTotpForSpecificTime(TimeCorrection.CorrectedUtcNow, totp, window, out timeStepMatched);
 
     /// <summary>
     /// Verify a value that has been provided with the calculated value
@@ -199,10 +173,82 @@ public class Totp : Otp
         out long timeStepMatched,
         VerificationWindow window = null) =>
         VerifyTotpForSpecificTime(
-            _correctedTime.GetCorrectedTime(timestamp),
+            TimeCorrection.GetCorrectedTime(timestamp),
             totp,
             window,
             out timeStepMatched);
+
+    /// <summary>
+    /// Remaining seconds in current window based on UtcNow
+    /// </summary>
+    /// <remarks>
+    /// It will be corrected against a corrected UTC time using the provided time correction.
+    /// If none was provided then simply the current UTC will be used.
+    /// </remarks>
+    /// <returns>Number of remaining seconds</returns>
+    public int RemainingSeconds()
+    {
+        return RemainingSecondsForSpecificTime(TimeCorrection.CorrectedUtcNow);
+    }
+
+    /// <summary>
+    /// Remaining seconds in current window
+    /// </summary>
+    /// <param name="timestamp">The timestamp</param>
+    /// <returns>Number of remaining seconds</returns>
+    public int RemainingSeconds(DateTime timestamp) =>
+        RemainingSecondsForSpecificTime(TimeCorrection.GetCorrectedTime(timestamp));
+
+    /// <summary>
+    /// Start of the current window based on UtcNow
+    /// </summary>
+    /// <remarks>
+    /// It will be corrected against a corrected UTC time using the provided time correction.
+    /// If none was provided then simply the current UTC will be used.
+    /// </remarks>
+    /// <returns>Start of the current window</returns>
+    public DateTime WindowStart()
+    {
+        return WindowStartForSpecificTime(TimeCorrection.CorrectedUtcNow);
+    }
+
+    public DateTime WindowStart(DateTime timestamp) =>
+        WindowStartForSpecificTime(TimeCorrection.GetCorrectedTime(timestamp));
+
+    /// <summary>
+    /// Takes a time step and computes a TOTP code
+    /// </summary>
+    /// <param name="counter">time step</param>
+    /// <param name="mode">The hash mode to use</param>
+    /// <returns>TOTP calculated code</returns>
+    protected override string Compute(long counter, OtpHashMode mode)
+    {
+        var data = KeyUtilities.GetBigEndianBytes(counter);
+        var otp = CalculateOtp(data, mode);
+        return Digits(otp, TotpSize);
+    }
+
+    private static void VerifyParameters(int step, int totpSize)
+    {
+        if (step <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(step));
+        }
+        if (totpSize <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(totpSize));
+        }
+        if (totpSize > 10)
+        {
+            throw new ArgumentOutOfRangeException(nameof(totpSize));
+        }
+    }
+
+    private string ComputeTotpFromSpecificTime(DateTime timestamp)
+    {
+        var window = CalculateTimeStepFromTimestamp(timestamp);
+        return Compute(window, _hashMode);
+    }
 
     private bool VerifyTotpForSpecificTime(
         DateTime timestamp,
@@ -220,63 +266,13 @@ public class Totp : Otp
     private long CalculateTimeStepFromTimestamp(DateTime timestamp)
     {
         var unixTimestamp = (timestamp.Ticks - UnicEpocTicks) / TicksToSeconds;
-        var window = unixTimestamp / (long)_step;
+        var window = unixTimestamp / (long)Step;
         return window;
     }
 
-    /// <summary>
-    /// Remaining seconds in current window based on UtcNow
-    /// </summary>
-    /// <remarks>
-    /// It will be corrected against a corrected UTC time using the provided time correction.
-    /// If none was provided then simply the current UTC will be used.
-    /// </remarks>
-    /// <returns>Number of remaining seconds</returns>
-    public int RemainingSeconds()
-    {
-        return RemainingSecondsForSpecificTime(_correctedTime.CorrectedUtcNow);
-    }
-
-    /// <summary>
-    /// Remaining seconds in current window
-    /// </summary>
-    /// <param name="timestamp">The timestamp</param>
-    /// <returns>Number of remaining seconds</returns>
-    public int RemainingSeconds(DateTime timestamp) =>
-        RemainingSecondsForSpecificTime(_correctedTime.GetCorrectedTime(timestamp));
-
     private int RemainingSecondsForSpecificTime(DateTime timestamp) =>
-        _step - (int)(((timestamp.Ticks - UnicEpocTicks) / TicksToSeconds) % _step);
-
-    /// <summary>
-    /// Start of the current window based on UtcNow
-    /// </summary>
-    /// <remarks>
-    /// It will be corrected against a corrected UTC time using the provided time correction.
-    /// If none was provided then simply the current UTC will be used.
-    /// </remarks>
-    /// <returns>Start of the current window</returns>
-    public DateTime WindowStart()
-    {
-        return WindowStartForSpecificTime(_correctedTime.CorrectedUtcNow);
-    }
-
-    public DateTime WindowStart(DateTime timestamp) =>
-        WindowStartForSpecificTime(_correctedTime.GetCorrectedTime(timestamp));
+        Step - (int)(((timestamp.Ticks - UnicEpocTicks) / TicksToSeconds) % Step);
 
     private DateTime WindowStartForSpecificTime(DateTime timestamp) =>
-        timestamp.AddTicks(-(timestamp.Ticks - UnicEpocTicks) % (TicksToSeconds * _step));
-
-    /// <summary>
-    /// Takes a time step and computes a TOTP code
-    /// </summary>
-    /// <param name="counter">time step</param>
-    /// <param name="mode">The hash mode to use</param>
-    /// <returns>TOTP calculated code</returns>
-    protected override string Compute(long counter, OtpHashMode mode)
-    {
-        var data = KeyUtilities.GetBigEndianBytes(counter);
-        var otp = CalculateOtp(data, mode);
-        return Digits(otp, _totpSize);
-    }
+        timestamp.AddTicks(-(timestamp.Ticks - UnicEpocTicks) % (TicksToSeconds * Step));
 }
