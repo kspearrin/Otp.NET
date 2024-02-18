@@ -16,32 +16,31 @@ in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFINGEMENT. IN NO EVENT SHALL
 THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 */
 
-namespace OtpNet
+namespace OtpNet;
+
+/// <summary>
+/// Interface used to interact with a key
+/// </summary>
+public interface IKeyProvider
 {
     /// <summary>
-    /// Interface used to interact with a key
+    /// Uses the key to get an HMAC using the specified algorithm and data
     /// </summary>
-    public interface IKeyProvider
-    {
-        /// <summary>
-        /// Uses the key to get an HMAC using the specified algorithm and data
-        /// </summary>
-        /// <remarks>
-        /// This is a much better API than the previous API which would briefly expose the key for all derived types.
-        /// 
-        /// Now a derived type could be bound to an HSM/smart card/etc if required and a lot of the security limitations
-        /// of in app/memory exposure of the key can be eliminated.
-        /// </remarks>
-        /// <param name="mode">The HMAC algorithm to use</param>
-        /// <param name="data">The data used to compute the HMAC</param>
-        /// <returns>HMAC of the key and data</returns>
-        byte[] ComputeHmac(OtpHashMode mode, byte[] data);
-    }
+    /// <remarks>
+    /// This is a much better API than the previous API which would briefly expose the key for all derived types.
+    /// 
+    /// Now a derived type could be bound to an HSM/smart card/etc if required and a lot of the security limitations
+    /// of in app/memory exposure of the key can be eliminated.
+    /// </remarks>
+    /// <param name="mode">The HMAC algorithm to use</param>
+    /// <param name="data">The data used to compute the HMAC</param>
+    /// <returns>HMAC of the key and data</returns>
+    byte[] ComputeHmac(OtpHashMode mode, byte[] data);
 }

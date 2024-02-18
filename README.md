@@ -1,26 +1,35 @@
 # Otp.NET
 
-An implementation TOTP [RFC 6238](http://tools.ietf.org/html/rfc6238) and HOTP [RFC 4226](http://tools.ietf.org/html/rfc4226) in C#. This is a port of the [OtpSharp library](https://bitbucket.org/devinmartin/otp-sharp/overview) to support .NET Core.
+An implementation TOTP [RFC 6238](http://tools.ietf.org/html/rfc6238) and HOTP [RFC 4226](http://tools.ietf.org/html/rfc4226) in C#.
+
+[![Build status](https://ci.appveyor.com/api/projects/status/renwlv60h7cfxs34?svg=true)](https://ci.appveyor.com/project/kspearrin/otp-net)
 
 ## Get it on NuGet
 
 https://www.nuget.org/packages/Otp.NET
 
+```powershell
+Install-Package Otp.NET 
 ```
-PM> Install-Package Otp.NET 
+
+or
+
+```bash
+dotnet add package Otp.NET
 ```
 
 ## Documentation
 
 - [TOTP (Timed One Time Password)](#totp-timed-one-time-password)
 - [HOTP (HMAC-based One Time Password)](#hotp-hmac-based-one-time-password)
+- [OTP Uri](#otp-uri)
 - [Base32 Encoding](#base32-encoding)
 
-## TOTP (Timed One Time Password)
+### TOTP (Timed One Time Password)
 
 TOTP is an algorithm that uses a rolling window of time to calculate single use passwords.  It is often used for two factor authentication.  The Google Authenticator app uses TOTP to calculate one time passwords.  This library implements TOTP code calculation in C#.  This could be embedded in a mobile app using Mono, or used server side to simply validate codes that are provided.
 
-### Creation of a TOTP object
+#### Creation of a TOTP object
 
 Use of the library is fairly straightforward.  There is a class called Totp.  Simply create a new instance of it and pass in the shared secret key in plaintext as a byte array.
 
@@ -54,7 +63,7 @@ Finally the truncation level can be specified.  Basically this is how many digit
 var totp = new Totp(secretKey, totpSize: 8);
 ```
 
-### Code Calculation
+#### Code Calculation
 
 Once you have an instance of the Totp class, you can easily calculate a code by Calling the ComputeTotp method.  You need to provide the timestamp to use in the code calculation.  DateTime.UtcNow is the recommended value.  There is an overload that doesn't take a parameter that just uses UtcNow.
 
@@ -64,7 +73,7 @@ var totpCode = totp.ComputeTotp(DateTime.UtcNow);
 var totpCode = totp.ComputeTotp();
 ```
 
-### Remaining Time
+#### Remaining Time
 
 There is a method that will tell you how much time remains in the current time step window in seconds.
 
@@ -74,7 +83,7 @@ var remainingTime = totp.RemainingSeconds();
 var remainingSeconds = totp.RemainingSeconds(DateTime.UtcNow);
 ```
 
-### Verification
+#### Verification
 
 The TOTP implementation provides a mechanism for verifying TOTP codes that are passed in.  There is a method called VerifyTotp with an overload that takes a specific timestamp.
 
@@ -85,13 +94,13 @@ public bool VerifyTotp(DateTime timestamp, string totp, out long timeWindowUsed,
 
 If the overload that doesn't take a timestamp is called, DateTime.UtcNow will be used as the comperand.
 
-### One Time Use
+#### One Time Use
 
 There is an output long called timeWindowUsed.  This is provided so that the caller of the function can persist/check that the code has only been validated once.  [RFC 6238 Section 5.2](http://tools.ietf.org/html/rfc6238#section-5.2) states that a code must only be accepted once.  The output parameter reports the specific time window where the match occured for persistance comparison in future verification attempts.
 
 It is up to the consumer of this library to ensure that only one match for a given time step window is actually accepted.  This library will only go so far as to determine that there was a valid code provided given the current time and the key, not that it was truly used one time as this library has no persistence.
 
-### Expanded time Window
+#### Expanded time Window
 
 [RFC 6238 Section 5.2](http://tools.ietf.org/html/rfc6238#section-5.2) defines the recommended conditions for accepting a TOTP validation code.  The exact text in the RFC is "We RECOMMEND that at most one time step is allowed as the network delay."
 
@@ -131,7 +140,7 @@ This can be used as follows
 totp.VerifyTotp(totpCode, out timeWindowUsed, VerificationWindow.RfcSpecifiedNetworkDelay);
 ```
 
-### Time compensation
+#### Time compensation
 
 In an ideal world both the client and the server's system time are correct to the second with NIST or other authoritative time standards.  This would ensure that the generated code is always correct.  If at all possible, sync the system time as closely as with NIST.
 
@@ -157,11 +166,11 @@ The Totp class constructor can take a TimeCorrection object that will be applied
 var totp = new Totp(secretKey, timeCorrection: correction);
 ```
 
-## HOTP (HMAC-based One Time Password)
+### HOTP (HMAC-based One Time Password)
 
 In addition to TOTP, this library implements HOTP (counter based) code calculation in C#.
 
-### Creation of an HOTP object
+#### Creation of an HOTP object
 
 ```c#
 using OtpNet;
@@ -184,10 +193,10 @@ var hotp = new Hotp(secretKey, mode: OtpHashMode.Sha512);
 Finally the truncation level can be specified.  Basically this is how many digits do you want your HOTP code to be.  The tests in the RFC specify 8, but 6 has become a de-facto standard if not an actual one.  For this reason the default is 6 but you can set it to something else.  There aren't a lot of tests around this either so use at your own risk (other than the fact that the RFC test table uses HOTP values that are 8 digits).
 
 ```c#
-var hotp = new Hotp(secretKey, totpSize: 8);
+var hotp = new Hotp(secretKey, hotpSize: 8);
 ```
 
-### Verification
+#### Verification
 
 The HOTP implementation provides a mechanism for verifying HOTP codes that are passed in.  There is a method called VerifyHotp with an overload that takes a counter value.
 
@@ -195,7 +204,16 @@ The HOTP implementation provides a mechanism for verifying HOTP codes that are p
 public bool VerifyHotp(string totp, long counter);
 ```
 
-## Base32 Encoding
+### OTP Uri
+
+You can use the OtpUri class to generate OTP style uris in the "Key Uri Format" as defined here: https://github.com/google/google-authenticator/wiki/Key-Uri-Format
+
+```c#
+var uriString = new OtpUri(OtpType.Totp, "JBSWY3DPEHPK3PXP", "alice@google.com", "ACME Co").ToString();
+// uriString is otpauth://totp/ACME%20Co:alice%40google.com?secret=JBSWY3DPEHPK3PXP&issuer=ACME%20Co&algorithm=SHA1&digits=6&period=30
+```
+
+### Base32 Encoding
 
 Also included is a Base32 helper.
 
@@ -208,3 +226,6 @@ var base32Bytes = Base32Encoding.ToBytes(base32String);
 var otp = new Totp(base32Bytes);
 ```
 
+## Credits
+
+This project is originally based on the OtpSharp library. OtpSharp was written by Devin Martin.

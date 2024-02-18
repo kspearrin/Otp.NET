@@ -1,29 +1,35 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>1.2.2</Version>
-    <TargetFrameworks>netstandard2.0;netstandard1.3;net45</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <Version>1.3.0</Version>
+    <TargetFrameworks>net461;net5.0;net6.0;net7.0;net8.0;netstandard2.0</TargetFrameworks>
     <PackageId>Otp.NET</PackageId>
     <Title>Otp.NET</Title>
     <Authors>Kyle Spearrin</Authors>
     <Copyright>Kyle Spearrin</Copyright>
     <PackageProjectUrl>https://github.com/kspearrin/Otp.NET</PackageProjectUrl>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/kspearrin/Otp.NET/master/LICENSE.txt</PackageLicenseUrl>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <Description>An implementation of TOTP and HOTP which are commonly used for multi factor authentication by using a shared key between the client and the server to generate and verify one time use codes.
 
 For documentation and examples visit the project website on GitHub at https://github.com/kspearrin/Otp.NET</Description>
     <Summary>An implementation of TOTP which is commonly used for multi factor authentication.</Summary>
     <PackageTags>otp,totp,hotp,2fa,two factor</PackageTags>
-    <PackageIconUrl>http://i.imgur.com/XFfC64v.png</PackageIconUrl>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/kspearrin/Otp.NET</RepositoryUrl>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>vs-signing-key.pfx</AssemblyOriginatorKeyFile>
     <RootNamespace>OtpNet</RootNamespace>
   </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)' == 'Release' ">
+    <AssemblyOriginatorKeyFile>vs-signing-key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
-    <Reference Include="System" />
-    <Reference Include="Microsoft.CSharp" />
+  <ItemGroup>
+    <None Include="..\..\LICENSE.txt" Pack="true" PackagePath="\" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
