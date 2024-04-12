@@ -2,7 +2,7 @@
 
 An implementation TOTP [RFC 6238](http://tools.ietf.org/html/rfc6238) and HOTP [RFC 4226](http://tools.ietf.org/html/rfc4226) in C#.
 
-![.NET build status (master)](https://github.com/kspearrin/Otp.NET/actions/workflows/dotnet.yml/badge.svg?branch=master)
+[![.NET build status (master)](https://github.com/kspearrin/Otp.NET/actions/workflows/dotnet.yml/badge.svg?branch=master)](https://github.com/kspearrin/Otp.NET/actions/workflows/dotnet.yml)
 
 ## Get it on NuGet
 
