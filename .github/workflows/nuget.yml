@@ -1,0 +1,32 @@
+name: Upload dotnet package
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      packages: write
+      contents: read
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore --configuration Release
+    - name: Publish to nuget.org
+      run: dotnet nuget push src/Otp.NET/bin/Release/*.nupkg -k $NUGET_AUTH_TOKEN -s https://api.nuget.org/v3/index.json
+    - name: Upload package
+      uses: actions/upload-artifact@v4
+      with:
+        name: otpnet-nuget-package
+        path: src/Otp.NET/bin/Release/*.nupkg
