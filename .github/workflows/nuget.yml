@@ -1,4 +1,4 @@
-name: Upload dotnet package
+name: Upload NuGet package
 
 on:
   release:
