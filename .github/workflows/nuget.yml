@@ -25,6 +25,8 @@ jobs:
       run: dotnet build --no-restore --configuration Release
     - name: Publish to nuget.org
       run: dotnet nuget push src/Otp.NET/bin/Release/*.nupkg -k $NUGET_AUTH_TOKEN -s https://api.nuget.org/v3/index.json
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.NUGET_TOKEN }}
     - name: Upload package
       uses: actions/upload-artifact@v4
       with:
