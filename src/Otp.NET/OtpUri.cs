@@ -18,7 +18,7 @@ public class OtpUri
         OtpHashMode algorithm = OtpHashMode.Sha1,
         int digits = 6,
         int period = 30,
-        int counter = 0)
+        long counter = 0)
     {
         _ = secret ?? throw new ArgumentNullException(nameof(secret));
         _ = user ?? throw new ArgumentNullException(nameof(user));
@@ -56,7 +56,7 @@ public class OtpUri
         OtpHashMode algorithm = OtpHashMode.Sha1,
         int digits = 6,
         int period = 30,
-        int counter = 0)
+        long counter = 0)
         : this(schema, Base32Encoding.ToString(secret), user, issuer,
               algorithm, digits, period, counter)
     { }
@@ -102,7 +102,7 @@ public class OtpUri
     /// <summary>
     /// Initial counter value for HOTP. This is ignored when using TOTP.
     /// </summary>
-    public int Counter { get; private set; }
+    public long Counter { get; private set; }
 
     /// <summary>
     /// Generates a Uri according to the parameters
