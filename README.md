@@ -201,7 +201,7 @@ var hotp = new Hotp(secretKey, hotpSize: 8);
 The HOTP implementation provides a mechanism for verifying HOTP codes that are passed in.  There is a method called VerifyHotp with an overload that takes a counter value.
 
 ```c#
-public bool VerifyHotp(string totp, long counter);
+public bool VerifyHotp(string hotp, long counter);
 ```
 
 ### OTP Uri
