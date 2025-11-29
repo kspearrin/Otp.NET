@@ -3,7 +3,7 @@
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
     <Version>1.4.0</Version>
-    <TargetFrameworks>net461;net5.0;net6.0;net7.0;net8.0;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net461;net5.0;net6.0;net7.0;net8.0;net9.0;net10.0;netstandard2.0</TargetFrameworks>
     <PackageId>Otp.NET</PackageId>
     <Title>Otp.NET</Title>
     <Authors>Kyle Spearrin</Authors>
